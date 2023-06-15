@@ -19,7 +19,7 @@ defmodule WordleCloneWeb.Router do
 
     get "/", PageController, :index
 
-    live "/throwaways", ThrowawaysLive.Index, :index
+    live "/word", WordLive.Index, :index
   end
 
   if Mix.env() in [:dev, :test] do

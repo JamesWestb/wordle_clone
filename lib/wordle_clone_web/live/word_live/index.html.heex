@@ -1,0 +1,22 @@
+<h1>Listing Words</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="words">
+    <%= for word <- @words do %>
+      <tr id={"word-#{word.id}"}>
+        <td><%= word.name %></td>
+
+        <td>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: word.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

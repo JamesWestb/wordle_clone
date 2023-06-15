@@ -39,7 +39,7 @@ config :esbuild,
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
 
-  config :tailwind,
+config :tailwind,
   version: "3.3.2",
   default: [
     args: ~w(

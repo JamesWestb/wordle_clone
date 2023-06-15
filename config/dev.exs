@@ -7,6 +7,7 @@ config :wordle_clone, WordleClone.Repo,
   hostname: "localhost",
   database: "wordle_clone_dev",
   stacktrace: true,
+  sandbox: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
