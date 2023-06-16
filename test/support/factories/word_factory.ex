@@ -3,7 +3,7 @@ defmodule WordleClone.WordBank.WordFactory do
     quote do
       def word_factory(attrs \\ %{}) do
         %WordleClone.WordBank.Word{
-          name: "sample"
+          name: "valid"
         }
       end
     end
