@@ -50,7 +50,8 @@ defmodule WordleClone.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:tailwind, "~> 0.2.0"},
-      {:ex_machina, "~> 2.7.0"}
+      {:ex_machina, "~> 2.7.0"},
+      {:word_list, "~> 0.1.0"}
     ]
   end
 

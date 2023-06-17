@@ -4,6 +4,7 @@ defmodule WordleClone.WordBank.Word do
 
   schema "words" do
     field :name, :string
+    field :game_solution, :boolean
 
     timestamps()
   end
@@ -11,7 +12,7 @@ defmodule WordleClone.WordBank.Word do
   @doc false
   def changeset(word, attrs) do
     word
-    |> cast(attrs, [:name])
+    |> cast(attrs, [:name, :game_solution])
     |> downcase_name()
     |> validate_required([:name])
     |> validate_length(:name, is: 5)
