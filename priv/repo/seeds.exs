@@ -14,7 +14,7 @@ import Ecto.Query, warn: false
 alias WordleClone.Repo
 alias WordleClone.WordBank.Word
 
-words = WordList.getStream!() |> Enum.filter(& String.length(&1) == 5)
+words = WordList.getStream!() |> Enum.filter(&(String.length(&1) == 5))
 
 Enum.each(words, &WordleClone.Repo.insert!(%Word{name: &1}))
 

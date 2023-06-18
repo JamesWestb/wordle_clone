@@ -6,23 +6,21 @@ defmodule WordleCloneWeb.WordLiveTest do
   import Phoenix.LiveViewTest
   import WordleClone.WordBankFixtures
 
-  @create_attrs %{name: "some name"}
-  @update_attrs %{name: "some updated name"}
-  @invalid_attrs %{name: nil}
-
-  defp create_word(_) do
-    word = word_fixture()
-    %{word: word}
-  end
-
   describe "Index" do
-    setup [:create_word]
+    setup do
+      word = insert(:word, name: "valid", game_solution: true)
 
-    test "lists all words", %{conn: conn, word: word} do
-      {:ok, _index_live, html} = live(conn, Routes.word_index_path(conn, :index))
+      %{word: word}
+    end
 
-      assert html =~ "Listing Words"
-      assert html =~ word.name
+    test "populates each text input cell", %{conn: conn} do
+      {:ok, index_live, html} = live(conn, Routes.word_index_path(conn, :index))
+
+      render_keyup(index_live, "keyup", %{"key" => "v"}) |> IO.inspect()
+
+      assert index_live |> element("#input_cell_0_0") |> has_element?()
+
+      assert index_live |> element("#input_cell_0_0 input[value=\"v\"]") |> has_element?()
     end
   end
 end

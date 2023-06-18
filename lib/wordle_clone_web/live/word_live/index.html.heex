@@ -1,4 +1,4 @@
-<div class="flex flex-wrap justify-center h-screen w-screen">
-  <%= WordleCloneWeb.WordView.text_input_grid() %>
+<div phx-window-keyup="keyup" class="flex flex-wrap justify-center h-screen w-screen">
+  <%= WordleCloneWeb.WordView.text_input_grid(@guesses) %>
   <%= WordleCloneWeb.WordView.keyboard() %>
 </div>

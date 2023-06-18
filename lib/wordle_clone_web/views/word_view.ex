@@ -1,32 +1,57 @@
 defmodule WordleCloneWeb.WordView do
   use WordleCloneWeb, :view
+  alias WordleClone.GameUtilities
 
-  def text_input_grid do
+  def text_input_grid(guesses) do
     ~E"""
-    <div class="grid grid-cols-1 self-end mb-4 gap-y-2">
+    <div class="grid grid-cols-1 self-end mb-5 gap-y-2">
       <div class="grid grid-cols-5 col-span-1 gap-2">
-        <%= for _ <- 0..5 do %>
-          <%= text_input_row() %>
+        <%= for row_index <- 0..5 do %>
+          <%= text_input_row(row_index, guesses) %>
         <% end %>
       </div>
     </div>
     """
   end
 
-  defp text_input_row do
+  defp text_input_row(row_index, guesses) do
     ~E"""
-    <%= for _ <- 0..4 do %>
-      <%= text_input_cell() %>
+    <%= for column_index <- 0..4 do %>
+      <%= text_input_cell(row_index, column_index, guesses) %>
     <% end%>
     """
   end
 
-  defp text_input_cell do
+  defp text_input_cell(row_index, column_index, guesses) do
+    cell_indices = "#{row_index}-#{column_index}"
+
     ~E"""
     <div class="relative w-16 h-16">
-      <input type="text" class="w-full h-full p-4 border-2 border-gray-500 rounded-sm outline-none focus:ring-0 focus:border-gray-500 cursor-default bg-transparent" maxlength="1">
+      <input id="input_cell_<%= cell_indices %>" type="text" value="<%= GameUtilities.find_input_cell_value(cell_indices, guesses) %>" class="w-full h-full p-4 border-2 border-gray-500 rounded-sm text-xl font-bold outline-none focus:ring-0 focus:border-gray-500 cursor-default bg-transparent" maxlength="1">
     </div>
     """
+  end
+
+  defp input_cell_value(row_index, column_index, guesses) do
+    guess = guess(guesses, row_index)
+
+    find_letter_value(guess, column_index)
+  end
+
+  defp guess(guesses, row_index) do
+    case Enum.fetch(guesses, row_index) do
+      {:ok, guess} -> guess
+      :error -> nil
+    end
+  end
+
+  def find_letter_value(nil, _index), do: ""
+
+  def find_letter_value(string, index) do
+    case String.codepoints(string) |> Enum.at(index - 1) do
+      nil -> ""
+      letter -> letter
+    end
   end
 
   def keyboard do

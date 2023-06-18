@@ -99,6 +99,9 @@ defmodule WordleCloneWeb do
       import WordleCloneWeb.ErrorHelpers
       import WordleCloneWeb.Gettext
       alias WordleCloneWeb.Router.Helpers, as: Routes
+
+      defp ok(socket), do: {:ok, socket}
+      defp noreply(socket), do: {:noreply, socket}
     end
   end
 
