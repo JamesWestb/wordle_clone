@@ -4,11 +4,12 @@ defmodule WordleCloneWeb.WordLive.Index do
   alias WordleClone.GameUtilities
   alias WordleClone.WordBank
   alias WordleClone.WordBank.Word
+  alias WordleClone.Guesses
 
   @impl true
   def mount(_params, _session, socket) do
     socket
-    |> assign(guesses: [])
+    |> assign(changeset: Guesses.guess_changeset(%{}))
     |> ok()
   end
 
@@ -27,9 +28,9 @@ defmodule WordleCloneWeb.WordLive.Index do
   @impl true
   def handle_event("keyup", %{"key" => "Meta"}, socket), do: noreply(socket)
 
-  def handle_event("keyup", %{"key" => key}, %{assigns: %{guesses: guesses}} = socket) do
+  def handle_event("keyup", %{"key" => key}, %{assigns: %{changeset: changeset}} = socket) do
     socket
-    |> assign(guesses: GameUtilities.append_guess_list(guesses, key))
+    |> assign(changeset: GameUtilities.append_guess_list(changeset, key))
     |> noreply()
   end
 end
