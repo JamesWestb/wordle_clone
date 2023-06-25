@@ -2,9 +2,9 @@ defmodule WordleCloneWeb.WordLive.Index do
   use WordleCloneWeb, :live_view
 
   alias WordleClone.GameUtilities
-  alias WordleClone.WordBank
-  alias WordleClone.WordBank.Word
   alias WordleClone.Guesses
+  alias WordleClone.WordBank
+  alias Ecto.Changeset
 
   @impl true
   def mount(_params, _session, socket) do
@@ -29,8 +29,25 @@ defmodule WordleCloneWeb.WordLive.Index do
   def handle_event("keyup", %{"key" => "Meta"}, socket), do: noreply(socket)
 
   def handle_event("keyup", %{"key" => key}, %{assigns: %{changeset: changeset}} = socket) do
+    updated_changeset = GameUtilities.append_guess_list(changeset, key)
+
     socket
-    |> assign(changeset: GameUtilities.append_guess_list(changeset, key))
+    |> check_word_bank(updated_changeset)
+    |> assign(changeset: updated_changeset)
     |> noreply()
   end
+
+  defp check_word_bank(socket, changeset) do
+    IO.inspect(changeset)
+    if in_word_bank?(changeset) do
+      socket
+    else
+      IO.puts "-----------------------------"
+      push_event(socket, "show-text-box", %{})
+    end
+  end
+
+  defp in_word_bank?(%Changeset{valid?: true, changes: %{guess_0: guess_0}}), do: WordBank.word_exists?(guess_0)
+
+  defp in_word_bank?(_), do: true
 end

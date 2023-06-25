@@ -23,8 +23,8 @@ defmodule WordleClone.GameUtilitiesTest do
       cell_indices_1 = "1-2"
       cell_indices_2 = "2-0"
 
-      assert "r" == GameUtilities.find_input_cell_value(cell_indices_1, changeset)
-      assert "t" == GameUtilities.find_input_cell_value(cell_indices_2, changeset)
+      assert "R" == GameUtilities.find_input_cell_value(cell_indices_1, changeset)
+      assert "T" == GameUtilities.find_input_cell_value(cell_indices_2, changeset)
     end
 
     test "returns an empty string when the indices do not match a guess", %{
@@ -79,8 +79,9 @@ defmodule WordleClone.GameUtilitiesTest do
       changeset =
         Guesses.guess_changeset(%{guess_0: guess_0, guess_1: guess_1, guess_2: ["t", "w"]})
 
-      assert %Changeset{changes: %{guess_0: ^guess_0, guess_1: ^guess_1, guess_2: ["t", "w", "i"]}} =
-               GameUtilities.append_guess_list(changeset, "i")
+      assert %Changeset{
+               changes: %{guess_0: ^guess_0, guess_1: ^guess_1, guess_2: ["t", "w", "i"]}
+             } = GameUtilities.append_guess_list(changeset, "i")
     end
   end
 

@@ -1,4 +1,4 @@
-<div phx-window-keyup="keyup" class="flex flex-wrap justify-center h-screen w-screen">
+<div phx-window-keyup="keyup" id="parent_div" phx-hook="ShowInvalidTextBox" class="flex flex-wrap justify-center h-screen w-screen">
   <%= WordleCloneWeb.WordView.text_input_grid(@changeset) %>
   <%= WordleCloneWeb.WordView.keyboard() %>
 </div>

@@ -29,4 +29,13 @@ defmodule WordleClone.WordBank do
   def change_word(%Word{} = word, attrs \\ %{}) do
     Word.changeset(word, attrs)
   end
+
+  def word_exists?(word_guess) do
+    string =  word_guess |> List.foldl("", &(&2 <> &1))
+
+    from(word in Word,
+      where: word.name == ^string
+    )
+    |> Repo.exists?()
+  end
 end

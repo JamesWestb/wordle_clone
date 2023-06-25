@@ -4,7 +4,6 @@ defmodule WordleCloneWeb.WordLiveTest do
   import WordleClone.Factory
 
   import Phoenix.LiveViewTest
-  import WordleClone.WordBankFixtures
 
   describe "Index" do
     setup do

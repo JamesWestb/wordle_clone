@@ -20,8 +20,6 @@ defmodule WordleClone.Guesses do
     %__MODULE__{}
     |> cast(attrs, @guess_fields)
     |> validate_length()
-
-    # |> validate_ascending_guesses()
   end
 
   defp validate_length(%Changeset{changes: changes} = changeset) do

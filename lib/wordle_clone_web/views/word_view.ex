@@ -5,7 +5,7 @@ defmodule WordleCloneWeb.WordView do
   def text_input_grid(changeset) do
     ~E"""
     <div class="grid grid-cols-1 self-end mb-5 gap-y-2">
-      <div class="grid grid-cols-5 col-span-1 gap-2">
+      <div class="grid grid-cols-1 col-span-1 gap-2">
         <%= for row_index <- 0..5 do %>
           <%= text_input_row(row_index, changeset) %>
         <% end %>
@@ -16,9 +16,11 @@ defmodule WordleCloneWeb.WordView do
 
   defp text_input_row(row_index, changeset) do
     ~E"""
+    <div id="row_<%= row_index %>" class="col-span-1 grid grid-cols-5 gap-2 flex justify-items-center">
     <%= for column_index <- 0..4 do %>
       <%= text_input_cell(row_index, column_index, changeset) %>
     <% end%>
+    </div>
     """
   end
 
@@ -26,32 +28,10 @@ defmodule WordleCloneWeb.WordView do
     cell_indices = "#{row_index}-#{column_index}"
 
     ~E"""
-    <div class="relative w-16 h-16">
+    <div class="relative w-16 h-16 col-span-1">
       <input id="input_cell_<%= cell_indices %>" type="text" value="<%= GameUtilities.find_input_cell_value(cell_indices, changeset) %>" class="w-full h-full p-4 border-2 border-gray-500 rounded-sm text-3xl text-center font-bold outline-none focus:ring-0 focus:border-gray-500 cursor-default bg-transparent" maxlength="1">
     </div>
     """
-  end
-
-  defp input_cell_value(row_index, column_index, guesses) do
-    guess = guess(guesses, row_index)
-
-    find_letter_value(guess, column_index)
-  end
-
-  defp guess(guesses, row_index) do
-    case Enum.fetch(guesses, row_index) do
-      {:ok, guess} -> guess
-      :error -> nil
-    end
-  end
-
-  def find_letter_value(nil, _index), do: ""
-
-  def find_letter_value(string, index) do
-    case String.codepoints(string) |> Enum.at(index - 1) do
-      nil -> ""
-      letter -> letter
-    end
   end
 
   def keyboard do
