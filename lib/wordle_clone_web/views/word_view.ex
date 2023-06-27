@@ -17,9 +17,9 @@ defmodule WordleCloneWeb.WordView do
   defp text_input_row(row_index, changeset) do
     ~E"""
     <div id="row_<%= row_index %>" class="col-span-1 grid grid-cols-5 gap-2 flex justify-items-center">
-    <%= for column_index <- 0..4 do %>
-      <%= text_input_cell(row_index, column_index, changeset) %>
-    <% end%>
+      <%= for column_index <- 0..4 do %>
+        <%= text_input_cell(row_index, column_index, changeset) %>
+      <% end%>
     </div>
     """
   end

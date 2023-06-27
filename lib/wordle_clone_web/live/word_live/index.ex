@@ -26,28 +26,38 @@ defmodule WordleCloneWeb.WordLive.Index do
   end
 
   @impl true
-  def handle_event("keyup", %{"key" => "Meta"}, socket), do: noreply(socket)
+  def handle_event("keydown", %{"key" => "Meta"}, socket), do: noreply(socket)
 
-  def handle_event("keyup", %{"key" => key}, %{assigns: %{changeset: changeset}} = socket) do
-    updated_changeset = GameUtilities.append_guess_list(changeset, key)
-
-    socket
-    |> check_word_bank(updated_changeset)
-    |> assign(changeset: updated_changeset)
-    |> noreply()
-  end
-
-  defp check_word_bank(socket, changeset) do
-    IO.inspect(changeset)
-    if in_word_bank?(changeset) do
+  def handle_event("keydown", %{"key" => "Enter"}, %{assigns: %{changeset: changeset}} = socket) do
+    if find_error(changeset, "not in word bank") do
       socket
+      |> push_event("show-text-box", %{})
+      |> noreply()
     else
-      IO.puts "-----------------------------"
-      push_event(socket, "show-text-box", %{})
+      socket
+      |> assign(changeset: GameUtilities.initiate_new_guess(changeset))
+      |> noreply()
     end
   end
 
-  defp in_word_bank?(%Changeset{valid?: true, changes: %{guess_0: guess_0}}), do: WordBank.word_exists?(guess_0)
+  def handle_event("keydown", %{"key" => key}, %{assigns: %{changeset: changeset}} = socket) do
+    socket
+    |> assign(changeset: handle_guess_input(changeset, key))
+    |> noreply()
+  end
 
-  defp in_word_bank?(_), do: true
+  defp handle_guess_input(changeset, key) do
+    if find_error(changeset, "must be five characters")  || find_error(changeset, "must contain at least one guess") do
+      GameUtilities.append_guess_list(changeset, key)
+
+    else
+      changeset
+    end
+  end
+
+  defp find_error(changeset, error_message) do
+    Enum.find(changeset.errors, fn {_field, message} ->
+      message == {error_message, []}
+    end)
+  end
 end

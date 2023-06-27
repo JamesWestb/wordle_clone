@@ -31,7 +31,7 @@ defmodule WordleClone.WordBank do
   end
 
   def word_exists?(word_guess) do
-    string =  word_guess |> List.foldl("", &(&2 <> &1))
+    string = word_guess |> List.foldl("", &(&2 <> &1))
 
     from(word in Word,
       where: word.name == ^string

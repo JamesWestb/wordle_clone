@@ -1,7 +1,6 @@
 export default {
   mounted() {
     this.handleEvent('show-text-box', (data) => {
-      console.log("---------------------------");
       const textBox = document.createElement("div");
       textBox.textContent = "Not in word list";
       textBox.classList.add("py-3", "px-3", "rounded-md", "absolute", "transition-opacity", "duration-500", "opacity-0", "bg-secondary-content", "text-base-100", "font-bold", "text-sm", "mx-auto", "-translate-y-7");
