@@ -78,7 +78,9 @@ defmodule WordleCloneWeb.WordLive.Index do
     column = length(current_guess) - 1
 
     socket
-    |> push_event("animate-input-cell", %{coordinates: WordView.stringify_cell_indices(row, column)})
+    |> push_event("animate-input-cell", %{
+      coordinates: WordView.stringify_cell_indices(row, column)
+    })
   end
 
   defp get_error(%Changeset{valid?: true}), do: nil
