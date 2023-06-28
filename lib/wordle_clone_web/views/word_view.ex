@@ -4,7 +4,7 @@ defmodule WordleCloneWeb.WordView do
 
   def text_input_grid(changeset) do
     ~E"""
-    <div class="grid grid-cols-1 self-end mb-5 gap-y-2">
+    <div id="text_input_grid" phx-hook="characterInputAnimation" class="grid grid-cols-1 self-end mb-5 gap-y-2">
       <div class="grid grid-cols-1 col-span-1 gap-2">
         <%= for row_index <- 0..5 do %>
           <%= text_input_row(row_index, changeset) %>
@@ -25,7 +25,7 @@ defmodule WordleCloneWeb.WordView do
   end
 
   defp text_input_cell(row_index, column_index, changeset) do
-    cell_indices = "#{row_index}-#{column_index}"
+    cell_indices = stringify_cell_indices(row_index, column_index)
 
     ~E"""
     <div class="relative w-16 h-16 col-span-1 pointer-events-none">
@@ -75,4 +75,6 @@ defmodule WordleCloneWeb.WordView do
     <kbd id="<%= value %>" class="kbd kbd-lg cursor-pointer font-bold rounded-md py-3 px-1"><%= String.upcase(value) %></kbd>
     """
   end
+
+  def stringify_cell_indices(row_index, column_index), do: "#{row_index}-#{column_index}"
 end

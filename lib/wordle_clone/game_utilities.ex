@@ -52,7 +52,7 @@ defmodule WordleClone.GameUtilities do
         new_changes = Map.merge(changeset.changes, %{current_key => updated_guess})
 
         Guesses.guess_changeset(new_changes)
-      end
+    end
   end
 
   def initiate_new_guess(changeset) do
@@ -63,8 +63,8 @@ defmodule WordleClone.GameUtilities do
     Guesses.guess_changeset(new_params)
   end
 
-  defp current_guess_key(changes) when changes == %{}, do: nil
-  defp current_guess_key(changes), do: encode_guess_key("#{map_size(changes) - 1}")
+  def current_guess_key(changes) when changes == %{}, do: nil
+  def current_guess_key(changes), do: encode_guess_key("#{map_size(changes) - 1}")
 
   defp encode_guess_key(row_index), do: ("guess_" <> row_index) |> String.to_atom()
 end

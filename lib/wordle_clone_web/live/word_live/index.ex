@@ -4,6 +4,7 @@ defmodule WordleCloneWeb.WordLive.Index do
   alias Ecto.Changeset
   alias WordleClone.GameUtilities
   alias WordleClone.Guesses
+  alias WordleCloneWeb.WordView
 
   @impl true
   def mount(_params, _session, socket) do
@@ -35,26 +36,31 @@ defmodule WordleCloneWeb.WordLive.Index do
     end
   end
 
-  def handle_event("keydown", %{"key" => "Backspace"}, %{assigns: %{changeset: changeset}} = socket) do
+  def handle_event(
+        "keydown",
+        %{"key" => "Backspace"},
+        %{assigns: %{changeset: changeset}} = socket
+      ) do
     socket |> assign(changeset: GameUtilities.pop_guess_list(changeset)) |> noreply()
   end
 
-  def handle_event("keydown", %{"key" => key}, %{assigns: %{changeset: changeset}} = socket) do
+  def handle_event("keydown", %{"key" => key}, socket) do
     if Regex.match?(~r/^[a-zA-Z]$/, key) do
-      socket
-      |> assign(changeset: handle_guess_input(changeset, key))
-      |> noreply()
+      handle_guess_input(socket, key)
     else
       noreply(socket)
     end
   end
 
-  defp handle_guess_input(changeset, key) do
+  defp handle_guess_input(%{assigns: %{changeset: changeset}} = socket, key) do
     if find_error(changeset, "must be five characters") ||
          find_error(changeset, "must contain at least one guess") do
-      GameUtilities.append_guess_list(changeset, key)
+      socket
+      |> assign(changeset: GameUtilities.append_guess_list(changeset, key))
+      |> push_input_animation()
+      |> noreply()
     else
-      changeset
+      noreply(socket)
     end
   end
 
@@ -62,6 +68,17 @@ defmodule WordleCloneWeb.WordLive.Index do
     socket
     |> push_event("show-text-box", %{message: message, row: map_size(changeset.changes) - 1})
     |> noreply()
+  end
+
+  defp push_input_animation(%{assigns: %{changeset: changeset}} = socket) do
+    current_guess_key = GameUtilities.current_guess_key(changeset.changes)
+    current_guess = Map.get(changeset.changes, current_guess_key)
+
+    row = map_size(changeset.changes) - 1
+    column = length(current_guess) - 1
+
+    socket
+    |> push_event("animate-input-cell", %{coordinates: WordView.stringify_cell_indices(row, column)})
   end
 
   defp get_error(%Changeset{valid?: true}), do: nil

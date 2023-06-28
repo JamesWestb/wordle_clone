@@ -132,10 +132,26 @@
   100% { transform: translateX(0); }
 }
 
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .shake-element {
   animation: shake 0.4s 1;
 }
 
 .no-shake {
   animation: none !important;
+}
+
+.pop-cell {
+  animation: pop 0.1s 1;
 }
