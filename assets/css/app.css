@@ -125,14 +125,15 @@
 @keyframes shake {
   0% { transform: translateX(0); }
   20% { transform: translateX(-5px); }
-  40% { transform: translateX(5px); }
-  60% { transform: translateX(-5px); }
-  80% { transform: translateX(5px); }
+  35% { transform: translateX(5px); }
+  50% { transform: translateX(-5px); }
+  65% { transform: translateX(5px); }
+  80% { transform: translateX(-5px); }
   100% { transform: translateX(0); }
 }
 
 .shake-element {
-  animation: shake 0.3s 1;
+  animation: shake 0.4s 1;
 }
 
 .no-shake {

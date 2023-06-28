@@ -28,13 +28,15 @@ defmodule WordleCloneWeb.WordLive.Index do
   def handle_event("keydown", %{"key" => "Meta"}, socket), do: noreply(socket)
 
   def handle_event("keydown", %{"key" => "Enter"}, %{assigns: %{changeset: changeset}} = socket) do
-    IO.inspect(get_error(changeset))
-
     case get_error(changeset) do
       nil -> socket |> assign(changeset: GameUtilities.initiate_new_guess(changeset)) |> noreply()
       "not in word bank" -> push_error_message(socket, "Not in word list")
       _ -> push_error_message(socket, "Not enough letters")
     end
+  end
+
+  def handle_event("keydown", %{"key" => "Backspace"}, %{assigns: %{changeset: changeset}} = socket) do
+    socket |> assign(changeset: GameUtilities.pop_guess_list(changeset)) |> noreply()
   end
 
   def handle_event("keydown", %{"key" => key}, %{assigns: %{changeset: changeset}} = socket) do

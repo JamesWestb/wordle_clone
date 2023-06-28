@@ -40,6 +40,21 @@ defmodule WordleClone.GameUtilities do
     end
   end
 
+  def pop_guess_list(changeset) do
+    current_key = current_guess_key(changeset.changes)
+
+    case current_key do
+      nil ->
+        changeset
+
+      _ ->
+        updated_guess = List.delete_at(Changeset.get_change(changeset, current_key), -1)
+        new_changes = Map.merge(changeset.changes, %{current_key => updated_guess})
+
+        Guesses.guess_changeset(new_changes)
+      end
+  end
+
   def initiate_new_guess(changeset) do
     next_key = encode_guess_key("#{Enum.count(changeset.changes)}")
 
