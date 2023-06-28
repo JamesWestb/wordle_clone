@@ -28,7 +28,7 @@ defmodule WordleCloneWeb.WordView do
     cell_indices = "#{row_index}-#{column_index}"
 
     ~E"""
-    <div class="relative w-16 h-16 col-span-1">
+    <div class="relative w-16 h-16 col-span-1 pointer-events-none">
       <input id="input_cell_<%= cell_indices %>" type="text" value="<%= GameUtilities.find_input_cell_value(cell_indices, changeset) %>" class="w-full h-full p-4 border-2 border-gray-500 rounded-sm text-3xl text-center font-bold outline-none focus:ring-0 focus:border-gray-500 cursor-default bg-transparent" maxlength="1">
     </div>
     """

@@ -49,7 +49,7 @@ defmodule WordleClone.GameUtilities do
   end
 
   defp current_guess_key(changes) when changes == %{}, do: nil
-  defp current_guess_key(changes), do: encode_guess_key("#{length(changes) - 1}")
+  defp current_guess_key(changes), do: encode_guess_key("#{map_size(changes) - 1}")
 
   defp encode_guess_key(row_index), do: ("guess_" <> row_index) |> String.to_atom()
 end

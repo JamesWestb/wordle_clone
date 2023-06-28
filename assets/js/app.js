@@ -24,7 +24,7 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
-import ShowInvalidTextBox from './hooks/show_invalid_text_box';
+import invalidTextAnimation from './hooks/invalid_text_animation';
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 
@@ -33,10 +33,10 @@ topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
 window.addEventListener("phx:page-loading-start", info => topbar.show())
 window.addEventListener("phx:page-loading-stop", info => topbar.hide())
 
-console.log(ShowInvalidTextBox)
+console.log(invalidTextAnimation)
 
 const Hooks = {
-  ShowInvalidTextBox
+  invalidTextAnimation
 };
 
 let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}, hooks: Hooks})

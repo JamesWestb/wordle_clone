@@ -1,10 +1,9 @@
 defmodule WordleCloneWeb.WordLive.Index do
   use WordleCloneWeb, :live_view
 
+  alias Ecto.Changeset
   alias WordleClone.GameUtilities
   alias WordleClone.Guesses
-  alias WordleClone.WordBank
-  alias Ecto.Changeset
 
   @impl true
   def mount(_params, _session, socket) do
@@ -29,31 +28,43 @@ defmodule WordleCloneWeb.WordLive.Index do
   def handle_event("keydown", %{"key" => "Meta"}, socket), do: noreply(socket)
 
   def handle_event("keydown", %{"key" => "Enter"}, %{assigns: %{changeset: changeset}} = socket) do
-    if find_error(changeset, "not in word bank") do
-      socket
-      |> push_event("show-text-box", %{})
-      |> noreply()
-    else
-      socket
-      |> assign(changeset: GameUtilities.initiate_new_guess(changeset))
-      |> noreply()
+    IO.inspect(get_error(changeset))
+
+    case get_error(changeset) do
+      nil -> socket |> assign(changeset: GameUtilities.initiate_new_guess(changeset)) |> noreply()
+      "not in word bank" -> push_error_message(socket, "Not in word list")
+      _ -> push_error_message(socket, "Not enough letters")
     end
   end
 
   def handle_event("keydown", %{"key" => key}, %{assigns: %{changeset: changeset}} = socket) do
-    socket
-    |> assign(changeset: handle_guess_input(changeset, key))
-    |> noreply()
+    if Regex.match?(~r/^[a-zA-Z]$/, key) do
+      socket
+      |> assign(changeset: handle_guess_input(changeset, key))
+      |> noreply()
+    else
+      noreply(socket)
+    end
   end
 
   defp handle_guess_input(changeset, key) do
-    if find_error(changeset, "must be five characters")  || find_error(changeset, "must contain at least one guess") do
+    if find_error(changeset, "must be five characters") ||
+         find_error(changeset, "must contain at least one guess") do
       GameUtilities.append_guess_list(changeset, key)
-
     else
       changeset
     end
   end
+
+  defp push_error_message(%{assigns: %{changeset: changeset}} = socket, message) do
+    socket
+    |> push_event("show-text-box", %{message: message, row: map_size(changeset.changes) - 1})
+    |> noreply()
+  end
+
+  defp get_error(%Changeset{valid?: true}), do: nil
+
+  defp get_error(%Changeset{errors: [guess: {error_message, []}]}), do: error_message
 
   defp find_error(changeset, error_message) do
     Enum.find(changeset.errors, fn {_field, message} ->

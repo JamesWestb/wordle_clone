@@ -40,7 +40,7 @@ defmodule WordleClone.Guesses do
   end
 
   defp validate_in_word_bank(%Changeset{changes: changes} = changeset) do
-    if Enum.all?(changes, fn {_, guess} -> (word_exists?(guess)) end) do
+    if Enum.all?(changes, fn {_, guess} -> word_exists?(guess) end) do
       changeset
     else
       add_error(changeset, :guess, "not in word bank")
