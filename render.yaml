@@ -10,6 +10,8 @@ services:
   startCommand: _build/prod/rel/wordle_clone/bin/wordle_clone start
   autoDeploy: false
   envVars:
+  - key: PORT
+    value: 80
   autoDeploy: false
 databases:
 - name: Wordle Clone Prod

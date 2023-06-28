@@ -1,0 +1,24 @@
+{
+  "name": "wordle_clone",
+  "version": "1.0.0",
+  "description": "To start your Phoenix server:",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "deploy": "NODE_ENV=production",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JamesWestb/wordle_clone.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JamesWestb/wordle_clone/issues"
+  },
+  "homepage": "https://github.com/JamesWestb/wordle_clone#readme"
+}
