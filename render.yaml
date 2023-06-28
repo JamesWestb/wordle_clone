@@ -1,0 +1,17 @@
+previewsEnabled: false
+previewsExpireAfterDays: 3
+services:
+- type: web
+  plan: starter
+  previewPlan: starter
+  name: Wordle Clone Prod
+  env: elixir
+  buildCommand: ./build.sh
+  startCommand: _build/prod/rel/wordle_clone/bin/wordle_clone start
+  autoDeploy: false
+  envVars:
+  autoDeploy: false
+databases:
+- name: Wordle Clone Prod
+  plan: starter
+  previewPlan: starter
