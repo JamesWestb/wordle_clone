@@ -18,7 +18,15 @@ config :wordle_clone, WordleClone.Repo,
 config :wordle_clone, WordleCloneWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "JU/jVJfC4hOSYavkbfq4KJTtPHndd/VPzRXpMKqcusNyPI6k4F7WYhx2n0E6xfuG",
-  server: false
+  server: true
+
+config :wordle_clone, sql_sandbox: true
+
+config :wallaby,
+  otp_app: :wordle_clone,
+  screenshot_on_failure: true,
+  driver: Wallaby.Chrome,
+  chromedriver: [headless: false]
 
 # In test we don't send emails.
 config :wordle_clone, WordleClone.Mailer, adapter: Swoosh.Adapters.Test

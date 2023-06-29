@@ -63,6 +63,8 @@ defmodule WordleClone.GameUtilities do
     Guesses.guess_changeset(new_params)
   end
 
+  def stringify_cell_indices(row_index, column_index), do: "#{row_index}-#{column_index}"
+
   def current_guess_key(changes) when changes == %{}, do: nil
   def current_guess_key(changes), do: encode_guess_key("#{map_size(changes) - 1}")
 

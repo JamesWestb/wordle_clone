@@ -79,7 +79,7 @@ defmodule WordleCloneWeb.WordLive.Index do
 
     socket
     |> push_event("animate-input-cell", %{
-      coordinates: WordView.stringify_cell_indices(row, column)
+      coordinates: GameUtilities.stringify_cell_indices(row, column)
     })
   end
 

@@ -25,7 +25,7 @@ defmodule WordleCloneWeb.WordView do
   end
 
   defp text_input_cell(row_index, column_index, changeset) do
-    cell_indices = stringify_cell_indices(row_index, column_index)
+    cell_indices = GameUtilities.stringify_cell_indices(row_index, column_index)
     input_value = GameUtilities.find_input_cell_value(cell_indices, changeset)
 
     ~E"""
@@ -77,7 +77,6 @@ defmodule WordleCloneWeb.WordView do
     """
   end
 
-  def stringify_cell_indices(row_index, column_index), do: "#{row_index}-#{column_index}"
   defp input_cell_color(""), do: "border-gray-600"
   defp input_cell_color(_), do: "border-gray-500"
 end
