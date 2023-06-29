@@ -15,3 +15,4 @@ mix phx.digest
 MIX_ENV=prod mix release --overwrite
 
 _build/prod/rel/wordle_clone/bin/wordle_clone eval "WordleClone.Release.migrate"
+mix run priv/repo/seeds.exs
