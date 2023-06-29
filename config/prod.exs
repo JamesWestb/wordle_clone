@@ -10,6 +10,8 @@ import Config
 # which you should run after static files are built and
 # before starting your production server.
 config :wordle_clone, WordleCloneWeb.Endpoint,
+  server: true,
+  url: [scheme: "https", host: System.get_env("HOST") || System.get_env("RENDER_EXTERNAL_HOSTNAME"), port: System.get_env("PORT")],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
