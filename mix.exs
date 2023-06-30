@@ -51,7 +51,7 @@ defmodule WordleClone.MixProject do
       {:tailwind, "~> 0.2.0"},
       {:ex_machina, "~> 2.7.0"},
       {:word_list, "~> 0.1.0"},
-      {:wallaby, "~> 0.30.3"}
+      {:wallaby, "~> 0.30.3", only: [:dev, :test]}
     ]
   end
 
