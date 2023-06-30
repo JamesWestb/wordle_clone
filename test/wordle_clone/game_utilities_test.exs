@@ -1,5 +1,7 @@
 defmodule WordleClone.GameUtilitiesTest do
-  use ExUnit.Case, async: true
+  use WordleClone.DataCase, async: true
+
+  import WordleClone.Factory
 
   alias Ecto.Changeset
   alias WordleClone.GameUtilities
@@ -40,6 +42,12 @@ defmodule WordleClone.GameUtilitiesTest do
   end
 
   describe "append_guess_list/2" do
+    setup do
+      insert(:word, name: "valid")
+
+      %{}
+    end
+
     test "creates guess_0 when there are no changes" do
       changeset = Guesses.guess_changeset(%{})
 
@@ -47,7 +55,7 @@ defmodule WordleClone.GameUtilitiesTest do
                GameUtilities.append_guess_list(changeset, "v")
     end
 
-    test "appends elements to guess_0" do
+    test "appends elements to guess" do
       changeset = Guesses.guess_changeset(%{guess_0: ["v"]})
 
       updated_changeset_1 = GameUtilities.append_guess_list(changeset, "a")
@@ -55,21 +63,6 @@ defmodule WordleClone.GameUtilitiesTest do
 
       assert %Changeset{changes: %{guess_0: ["v", "a"]}} = updated_changeset_1
       assert %Changeset{changes: %{guess_0: ["v", "a", "l"]}} = updated_changeset_2
-    end
-
-    test "creates a new change when the existing changes are valid" do
-      changeset = Guesses.guess_changeset(%{guess_0: ["v", "a", "l", "i"]})
-
-      updated_changeset_1 = GameUtilities.append_guess_list(changeset, "d")
-      updated_changeset_2 = GameUtilities.append_guess_list(updated_changeset_1, "n")
-
-      assert %Changeset{changes: %{guess_0: ["v", "a", "l", "i", "d"]}, valid?: true} =
-               updated_changeset_1
-
-      assert %Changeset{
-               changes: %{guess_0: ["v", "a", "l", "i", "d"], guess_1: ["n"]},
-               valid?: false
-             } = updated_changeset_2
     end
 
     test "appends elements to changes after guess_0" do

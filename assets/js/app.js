@@ -24,7 +24,7 @@ import 'phoenix_html'
 import { Socket } from 'phoenix'
 import { LiveSocket } from 'phoenix_live_view'
 import topbar from '../vendor/topbar'
-import invalidTextAnimation from './hooks/invalid_text_animation'
+import infoTextAnimation from './hooks/info_text_animation'
 import characterInputAnimation from './hooks/character_input_animation'
 
 let csrfToken = document
@@ -37,7 +37,7 @@ window.addEventListener('phx:page-loading-start', info => topbar.show())
 window.addEventListener('phx:page-loading-stop', info => topbar.hide())
 
 const Hooks = {
-  invalidTextAnimation,
+  infoTextAnimation,
   characterInputAnimation
 }
 

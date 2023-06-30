@@ -6,17 +6,18 @@ defmodule WordleCloneWeb.WordLiveTest do
 
   describe "guess input" do
     setup do
-      word = insert(:word, name: "valid", game_solution: true)
-      guess = ["v", "a", "l", "i", "d"]
+      insert(:word, name: "valid", game_solution: true, id: 200)
+      word = insert(:word, name: "world", game_solution: false)
+      incorrect_guess = ["w", "o", "r", "l", "d"]
 
-      %{word: word, guess: guess}
+      %{word: word, incorrect_guess: incorrect_guess}
     end
 
-    test "populates each text input cell in a row", %{conn: conn, guess: guess} do
+    test "populates each text input cell in a row", %{conn: conn, incorrect_guess: incorrect_guess} do
       {:ok, index_live, _html} = live(conn, Routes.word_index_path(conn, :index))
 
       Enum.each(0..4, fn index ->
-        input_value = guess |> Enum.at(index)
+        input_value = incorrect_guess |> Enum.at(index)
 
         render_keydown(index_live, "keydown", %{"key" => input_value})
 
@@ -26,38 +27,38 @@ defmodule WordleCloneWeb.WordLiveTest do
       end)
     end
 
-    test "does not populate input when a guess is completed", %{conn: conn, guess: guess} do
+    test "does not populate input when a guess is completed", %{conn: conn, incorrect_guess: incorrect_guess} do
       {:ok, index_live, _html} = live(conn, Routes.word_index_path(conn, :index))
 
-      input_guess(index_live, guess)
+      input_guess(index_live, incorrect_guess)
 
       render_keydown(index_live, "keydown", %{"key" => "x"})
 
       refute index_live |> element("input[value=\"X\"]") |> has_element?()
 
-      assert_input_values(index_live, guess)
+      assert_input_values(index_live, incorrect_guess)
     end
 
-    test "initiates a new guess", %{conn: conn, guess: guess} do
+    test "initiates a new guess", %{conn: conn, incorrect_guess: incorrect_guess} do
       {:ok, index_live, _html} = live(conn, Routes.word_index_path(conn, :index))
 
-      input_guess(index_live, guess)
+      input_guess(index_live, incorrect_guess)
 
       render_keydown(index_live, "keydown", %{"key" => "Enter"})
       render_keydown(index_live, "keydown", %{"key" => "x"})
 
       assert index_live |> element("#input_cell_1-0[value=\"X\"]") |> has_element?()
 
-      assert_input_values(index_live, guess)
+      assert_input_values(index_live, incorrect_guess)
     end
 
-    test "removes characters from a guess", %{conn: conn, guess: guess} do
+    test "removes characters from a guess", %{conn: conn, incorrect_guess: incorrect_guess} do
       {:ok, index_live, _html} = live(conn, Routes.word_index_path(conn, :index))
 
-      input_guess(index_live, guess)
+      input_guess(index_live, incorrect_guess)
 
       Enum.each(1..5, fn index ->
-        {updated_guess, _} = Enum.split(guess, index * -1)
+        {updated_guess, _} = Enum.split(incorrect_guess, index * -1)
 
         render_keydown(index_live, "keydown", %{"key" => "Backspace"})
 
@@ -65,10 +66,10 @@ defmodule WordleCloneWeb.WordLiveTest do
       end)
     end
 
-    test "does not remove characters from the previous guess", %{conn: conn, guess: guess} do
+    test "does not remove characters from the previous guess", %{conn: conn, incorrect_guess: incorrect_guess} do
       {:ok, index_live, _html} = live(conn, Routes.word_index_path(conn, :index))
 
-      input_guess(index_live, guess)
+      input_guess(index_live, incorrect_guess)
 
       render_keydown(index_live, "keydown", %{"key" => "Enter"})
       render_keydown(index_live, "keydown", %{"key" => "x"})
@@ -79,7 +80,7 @@ defmodule WordleCloneWeb.WordLiveTest do
 
       render_keydown(index_live, "keydown", %{"key" => "Backspace"})
 
-      assert_input_values(index_live, guess)
+      assert_input_values(index_live, incorrect_guess)
     end
   end
 

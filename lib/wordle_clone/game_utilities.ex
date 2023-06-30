@@ -55,6 +55,11 @@ defmodule WordleClone.GameUtilities do
     end
   end
 
+  def current_guess(changeset) do
+    current_guess_key = current_guess_key(changeset.changes)
+    Map.get(changeset.changes, current_guess_key)
+  end
+
   def initiate_new_guess(changeset) do
     next_key = encode_guess_key("#{Enum.count(changeset.changes)}")
 

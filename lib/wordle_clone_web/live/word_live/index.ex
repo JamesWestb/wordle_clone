@@ -4,14 +4,16 @@ defmodule WordleCloneWeb.WordLive.Index do
   alias Ecto.Changeset
   alias WordleClone.GameUtilities
   alias WordleClone.Guesses
-  alias WordleCloneWeb.WordView
+  alias WordleClone.WordBank
 
   @impl true
   def mount(_params, _session, socket) do
     socket
+    |> assign(answer: WordBank.get_game_answer(153).name |> String.graphemes())
     |> assign(changeset: Guesses.guess_changeset(%{}))
     |> ok()
   end
+
 
   @impl true
   def handle_params(params, _url, socket) do
@@ -30,9 +32,9 @@ defmodule WordleCloneWeb.WordLive.Index do
 
   def handle_event("keydown", %{"key" => "Enter"}, %{assigns: %{changeset: changeset}} = socket) do
     case get_error(changeset) do
-      nil -> socket |> assign(changeset: GameUtilities.initiate_new_guess(changeset)) |> noreply()
-      "not in word bank" -> push_error_message(socket, "Not in word list")
-      _ -> push_error_message(socket, "Not enough letters")
+      nil -> submit_guess(socket, changeset)
+      "not in word bank" -> push_info_text_animation(socket, "Not in word list")
+      _ -> push_info_text_animation(socket, "Not enough letters")
     end
   end
 
@@ -64,18 +66,23 @@ defmodule WordleCloneWeb.WordLive.Index do
     end
   end
 
-  defp push_error_message(%{assigns: %{changeset: changeset}} = socket, message) do
+  defp submit_guess(%{assigns: %{answer: answer}} = socket, changeset) do
+    if GameUtilities.current_guess(changeset) == answer do
+      push_info_text_animation(socket, "Genius")
+    else
+      socket |> assign(changeset: GameUtilities.initiate_new_guess(changeset)) |> noreply()
+    end
+  end
+
+  defp push_info_text_animation(%{assigns: %{changeset: changeset}} = socket, message) do
     socket
-    |> push_event("show-text-box", %{message: message, row: map_size(changeset.changes) - 1})
+    |> push_event("show-text-box", %{message: message, row: row(changeset.changes)})
     |> noreply()
   end
 
   defp push_input_animation(%{assigns: %{changeset: changeset}} = socket) do
-    current_guess_key = GameUtilities.current_guess_key(changeset.changes)
-    current_guess = Map.get(changeset.changes, current_guess_key)
-
     row = map_size(changeset.changes) - 1
-    column = length(current_guess) - 1
+    column = length(GameUtilities.current_guess(changeset)) - 1
 
     socket
     |> push_event("animate-input-cell", %{
@@ -92,4 +99,7 @@ defmodule WordleCloneWeb.WordLive.Index do
       message == {error_message, []}
     end)
   end
+
+  defp row(changes) when changes == %{}, do: 0
+  defp row(changes), do: map_size(changes) - 1
 end

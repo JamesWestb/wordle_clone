@@ -19,6 +19,7 @@ export default {
         '-translate-y-7',
         'animate-none'
       )
+      textBox.id = 'info_text_box'
 
       const topRow = document.getElementById('row_0')
       const currentRow = document.getElementById(`row_${data.row}`)
