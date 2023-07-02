@@ -36,8 +36,73 @@ topbar.config({ barColors: { 0: '#29d' }, shadowColor: 'rgba(0, 0, 0, .3)' })
 window.addEventListener('phx:page-loading-start', info => topbar.show())
 window.addEventListener('phx:page-loading-stop', info => topbar.hide())
 
+window.validationMessageKey = {
+  invalid_length: 'Not enough letters',
+  not_in_database: 'Not in word list',
+  no_guesses: 'Not enough letters',
+  correct: 'Genius'
+}
+
+function guessSubmitAnimation (row, validation, relay) {
+  const currentRow = document.getElementById(`row_${row}`)
+
+  if (validation == 'correct' || !validation) {
+    const childElements = currentRow.children
+
+    const animationCount = childElements.length
+    let completedAnimations = 0
+    const resultObject = {}
+
+    document.addEventListener('keydown', disableKeyboardEvents)
+
+    function disableKeyboardEvents (event) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
+
+    Array.from(childElements).forEach((childElement, index) => {
+      setTimeout(() => {
+        childElement.classList.add('guess-submit')
+        const animationDuration =
+          parseFloat(getComputedStyle(childElement).animationDuration) * 1000
+        const delay = animationDuration - 200
+
+        let column = index
+
+        let background = 'bg-base-300'
+        const animationEndHandler = () => {
+          childElement.classList.remove('guess-submit')
+          const key = `${row}-${column}`
+          resultObject[key] = background
+          completedAnimations++
+
+          if (completedAnimations === animationCount) {
+
+            relay.pushEvent('background-change', resultObject)
+            document.removeEventListener('keydown', disableKeyboardEvents)
+          }
+        }
+
+        childElement.addEventListener('animationend', animationEndHandler)
+
+        setTimeout(() => {
+          childElement.classList.add(background)
+        }, delay)
+      }, index * 350)
+    })
+  } else {
+    currentRow.classList.add('shake-element')
+
+    currentRow.addEventListener('animationend', onAnimationEnd)
+
+    function onAnimationEnd () {
+      currentRow.classList.remove('shake-element')
+    }
+  }
+}
+
 const Hooks = {
-  infoTextAnimation,
+  infoTextAnimation: infoTextAnimation(guessSubmitAnimation),
   characterInputAnimation
 }
 

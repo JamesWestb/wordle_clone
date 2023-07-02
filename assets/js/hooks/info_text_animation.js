@@ -1,8 +1,9 @@
-export default {
+const infoTextAnimation = (guessSubmitAnimation) => ({
   mounted () {
     this.handleEvent('show-text-box', data => {
+      validation = data.validation
       const textBox = document.createElement('div')
-      textBox.textContent = data.message
+      textBox.textContent = window.validationMessageKey[validation]
       textBox.classList.add(
         'py-3',
         'px-3',
@@ -22,18 +23,12 @@ export default {
       textBox.id = 'info_text_box'
 
       const topRow = document.getElementById('row_0')
-      const currentRow = document.getElementById(`row_${data.row}`)
 
-      topRow.appendChild(textBox)
-
-      currentRow.classList.add('shake-element')
-      textBox.classList.add('no-shake')
-
-      currentRow.addEventListener('animationend', onAnimationEnd)
-
-      function onAnimationEnd () {
-        currentRow.classList.remove('shake-element')
+      if (data.validation) {
+        topRow.appendChild(textBox)
       }
+
+      guessSubmitAnimation(data.row, data.validation, this)
 
       setTimeout(() => {
         textBox.style.opacity = '1'
@@ -47,4 +42,6 @@ export default {
       }, 1500)
     })
   }
-}
+})
+
+export default infoTextAnimation

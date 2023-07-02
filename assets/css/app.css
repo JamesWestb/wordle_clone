@@ -132,6 +132,12 @@
   100% { transform: translateX(0); }
 }
 
+@keyframes shrink-vertical {
+  0% { transform: scaleY(1); }
+  50% { transform: scaleY(0); }
+  100% { transform: scaleY(1); }
+}
+
 @keyframes pop {
   0% {
     transform: scale(1);
@@ -142,6 +148,10 @@
   100% {
     transform: scale(1);
   }
+}
+
+.guess-submit {
+  animation: shrink-vertical 0.5s 1;
 }
 
 .shake-element {

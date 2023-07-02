@@ -67,6 +67,7 @@ defmodule WordleClone.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      "prod.test": ["ecto.create --quiet", "ecto.migrate --quiet", "test", "--exclude wallaby"],
       "assets.deploy": [
         "esbuild default --minify",
         "tailwind default --minify",

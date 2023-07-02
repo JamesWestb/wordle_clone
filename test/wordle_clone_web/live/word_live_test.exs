@@ -8,12 +8,15 @@ defmodule WordleCloneWeb.WordLiveTest do
     setup do
       insert(:word, name: "valid", game_solution: true, id: 200)
       word = insert(:word, name: "world", game_solution: false)
-      incorrect_guess = ["w", "o", "r", "l", "d"]
+      incorrect_guess = String.graphemes(word.name)
 
       %{word: word, incorrect_guess: incorrect_guess}
     end
 
-    test "populates each text input cell in a row", %{conn: conn, incorrect_guess: incorrect_guess} do
+    test "populates each text input cell in a row", %{
+      conn: conn,
+      incorrect_guess: incorrect_guess
+    } do
       {:ok, index_live, _html} = live(conn, Routes.word_index_path(conn, :index))
 
       Enum.each(0..4, fn index ->
@@ -27,7 +30,10 @@ defmodule WordleCloneWeb.WordLiveTest do
       end)
     end
 
-    test "does not populate input when a guess is completed", %{conn: conn, incorrect_guess: incorrect_guess} do
+    test "does not populate input when a guess is completed", %{
+      conn: conn,
+      incorrect_guess: incorrect_guess
+    } do
       {:ok, index_live, _html} = live(conn, Routes.word_index_path(conn, :index))
 
       input_guess(index_live, incorrect_guess)
@@ -66,7 +72,10 @@ defmodule WordleCloneWeb.WordLiveTest do
       end)
     end
 
-    test "does not remove characters from the previous guess", %{conn: conn, incorrect_guess: incorrect_guess} do
+    test "does not remove characters from the previous guess", %{
+      conn: conn,
+      incorrect_guess: incorrect_guess
+    } do
       {:ok, index_live, _html} = live(conn, Routes.word_index_path(conn, :index))
 
       input_guess(index_live, incorrect_guess)
@@ -81,6 +90,18 @@ defmodule WordleCloneWeb.WordLiveTest do
       render_keydown(index_live, "keydown", %{"key" => "Backspace"})
 
       assert_input_values(index_live, incorrect_guess)
+    end
+  end
+
+  describe "guess submit" do
+    setup do
+      word_1 = insert(:word, name: "valid", game_solution: true, id: 200)
+      word_2 = insert(:word, name: "world", game_solution: false)
+
+      correct_guess = String.graphemes(word_1.name)
+      incorrect_guess = String.graphemes(word_2.name)
+
+      %{words: [word_1, word_2], correct_guess: correct_guess, incorrect_guess: incorrect_guess}
     end
   end
 

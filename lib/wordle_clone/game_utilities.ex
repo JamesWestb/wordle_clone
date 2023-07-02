@@ -55,11 +55,6 @@ defmodule WordleClone.GameUtilities do
     end
   end
 
-  def current_guess(changeset) do
-    current_guess_key = current_guess_key(changeset.changes)
-    Map.get(changeset.changes, current_guess_key)
-  end
-
   def initiate_new_guess(changeset) do
     next_key = encode_guess_key("#{Enum.count(changeset.changes)}")
 
@@ -69,6 +64,11 @@ defmodule WordleClone.GameUtilities do
   end
 
   def stringify_cell_indices(row_index, column_index), do: "#{row_index}-#{column_index}"
+
+  def current_guess(changeset) do
+    current_guess_key = current_guess_key(changeset.changes)
+    Map.get(changeset.changes, current_guess_key)
+  end
 
   def current_guess_key(changes) when changes == %{}, do: nil
   def current_guess_key(changes), do: encode_guess_key("#{map_size(changes) - 1}")

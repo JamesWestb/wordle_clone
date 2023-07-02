@@ -10,10 +10,11 @@ defmodule WordleCloneWeb.WordLive.Index do
   def mount(_params, _session, socket) do
     socket
     |> assign(answer: WordBank.get_game_answer(153).name |> String.graphemes())
+    |> assign(input_cell_backgrounds: %{})
     |> assign(changeset: Guesses.guess_changeset(%{}))
+    |> assign(input_disabled: false)
     |> ok()
   end
-
 
   @impl true
   def handle_params(params, _url, socket) do
@@ -28,13 +29,11 @@ defmodule WordleCloneWeb.WordLive.Index do
   end
 
   @impl true
-  def handle_event("keydown", %{"key" => "Meta"}, socket), do: noreply(socket)
-
   def handle_event("keydown", %{"key" => "Enter"}, %{assigns: %{changeset: changeset}} = socket) do
     case get_error(changeset) do
       nil -> submit_guess(socket, changeset)
-      "not in word bank" -> push_info_text_animation(socket, "Not in word list")
-      _ -> push_info_text_animation(socket, "Not enough letters")
+      "not in word bank" -> push_info_text_animation(socket, :not_in_database)
+      _ -> push_info_text_animation(socket, :invalid_length)
     end
   end
 
@@ -46,12 +45,28 @@ defmodule WordleCloneWeb.WordLive.Index do
     socket |> assign(changeset: GameUtilities.pop_guess_list(changeset)) |> noreply()
   end
 
-  def handle_event("keydown", %{"key" => key}, socket) do
-    if Regex.match?(~r/^[a-zA-Z]$/, key) do
+  def handle_event(
+        "keydown",
+        %{"key" => key},
+        %{assigns: %{input_disabled: input_disabled}} = socket
+      ) do
+    if Regex.match?(~r/^[a-zA-Z]$/, key) && !input_disabled do
       handle_guess_input(socket, key)
     else
-      noreply(socket)
+      socket |> assign(input_disabled: true) |> noreply()
     end
+  end
+
+  def handle_event("keyup", _, socket), do: socket |> assign(input_disabled: false) |> noreply()
+
+  def handle_event(
+        "background-change",
+        thing,
+        %{assigns: %{input_cell_backgrounds: input_cell_backgrounds}} = socket
+      ) do
+    socket
+    |> assign(input_cell_backgrounds: Map.merge(input_cell_backgrounds, thing))
+    |> noreply()
   end
 
   defp handle_guess_input(%{assigns: %{changeset: changeset}} = socket, key) do
@@ -68,15 +83,21 @@ defmodule WordleCloneWeb.WordLive.Index do
 
   defp submit_guess(%{assigns: %{answer: answer}} = socket, changeset) do
     if GameUtilities.current_guess(changeset) == answer do
-      push_info_text_animation(socket, "Genius")
+      push_info_text_animation(socket, :correct)
     else
-      socket |> assign(changeset: GameUtilities.initiate_new_guess(changeset)) |> noreply()
+      socket
+      |> assign(changeset: GameUtilities.initiate_new_guess(changeset))
+      |> push_event("show-text-box", %{validation: nil, row: row(changeset.changes)})
+      |> noreply()
     end
   end
 
-  defp push_info_text_animation(%{assigns: %{changeset: changeset}} = socket, message) do
+  defp push_info_text_animation(
+         %{assigns: %{changeset: changeset}} = socket,
+         validation_message
+       ) do
     socket
-    |> push_event("show-text-box", %{message: message, row: row(changeset.changes)})
+    |> push_event("show-text-box", %{validation: validation_message, row: row(changeset.changes)})
     |> noreply()
   end
 
