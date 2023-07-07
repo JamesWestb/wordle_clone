@@ -38,6 +38,18 @@
   margin: -1rem 0 2rem;
 }
 
+.bg-incorrect-guess {
+  background-color: #374250
+}
+
+.bg-incorrect-index {
+  background-color:#B49F3B;
+}
+
+.bg-correct-index {
+  background-color:#538D4E;
+}
+
 /* LiveView specific classes for your customization */
 .phx-no-feedback.invalid-feedback,
 .phx-no-feedback .invalid-feedback {

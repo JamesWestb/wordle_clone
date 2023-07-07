@@ -30,7 +30,7 @@ defmodule WordleCloneWeb.WordView do
 
     ~E"""
     <div class="relative w-16 h-16 col-span-1 pointer-events-none">
-      <input id="input_cell_<%= cell_indices %>" type="text" value="<%= input_value %>" class="w-full h-full p-4 border-2 <%= input_cell_border_color(input_value) %> <%= input_cell_background_color(input_cell_backgrounds, cell_indices) %> rounded-sm text-3xl text-center font-bold outline-none focus:ring-0 focus:border-gray-500 cursor-default" maxlength="1">
+      <input id="input_cell_<%= cell_indices %>" type="text" value="<%= input_value %>" class="w-full h-full p-4 <%= input_cell_background_color(input_cell_backgrounds, input_value, cell_indices) %> text-slate-100 rounded-sm text-3xl text-center font-bold cursor-default" maxlength="1">
     </div>
     """
   end
@@ -80,10 +80,10 @@ defmodule WordleCloneWeb.WordView do
   defp input_cell_border_color(""), do: "border-gray-600"
   defp input_cell_border_color(_), do: "border-gray-500"
 
-  defp input_cell_background_color(background_colors, indices) do
+  defp input_cell_background_color(background_colors, value, indices) do
     case Map.get(background_colors, indices) do
-      nil -> "bg-transparent"
-      background_color -> background_color
+      nil -> "bg-transparent #{input_cell_border_color(value)} border-2"
+      background_color -> "#{background_color} border-none"
     end
   end
 end

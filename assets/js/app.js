@@ -47,7 +47,9 @@ function guessSubmitAnimation (row, validation, relay, answer) {
   const currentRow = document.getElementById(`row_${row}`)
 
   if (validation == 'correct' || !validation) {
-    const childElements = Array.from(currentRow.children).filter(child => child.id !== "info_text_box");
+    const childElements = Array.from(currentRow.children).filter(
+      child => child.id !== 'info_text_box'
+    )
 
     const animationCount = childElements.length
     let completedAnimations = 0
@@ -61,8 +63,10 @@ function guessSubmitAnimation (row, validation, relay, answer) {
     }
 
     Array.from(childElements).forEach((childElement, index) => {
+
       setTimeout(() => {
         childElement.classList.add('flip-cell')
+
         const animationDuration =
           parseFloat(getComputedStyle(childElement).animationDuration) * 1000
         const delay = animationDuration - 200
@@ -70,10 +74,14 @@ function guessSubmitAnimation (row, validation, relay, answer) {
         function permanentBackground (parentElement, answer, index) {
           const inputCell = parentElement.firstElementChild
 
+          inputCell.classList.add('border-none')
+
           if (inputCell.value.toLowerCase() == answer[index]) {
-            return 'bg-green-700'
+            return 'bg-correct-index'
+          } else if (answer.includes(inputCell.value.toLowerCase())) {
+            return 'bg-incorrect-index'
           } else {
-            return 'bg-base-300'
+            return 'bg-incorrect-guess'
           }
         }
 

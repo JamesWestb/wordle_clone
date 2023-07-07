@@ -55,7 +55,7 @@ defmodule WordleCloneWeb.WordFeatureTest do
       |> assert_has(Query.css(".flip-cell"))
     end
 
-    test "green background for correct letters at correct index", %{
+    test "index-dependent colored backgrounds for correct letters", %{
       session: session,
       incorrect_guess: incorrect_guess
     } do
@@ -65,11 +65,12 @@ defmodule WordleCloneWeb.WordFeatureTest do
 
       input_guess(session, incorrect_guess, 0)
 
-      Enum.each(0..3, fn index ->
-        assert_has(session, Query.css("#input_cell_0-#{index}.bg-base-300"))
+      Enum.each(0..2, fn index ->
+        assert_has(session, Query.css("#input_cell_0-#{index}.bg-incorrect-guess"))
       end)
 
-      assert_has(session, Query.css("#input_cell_0-4.bg-green-700"))
+      assert_has(session, Query.css("#input_cell_0-3.bg-incorrect-index"))
+      assert_has(session, Query.css("#input_cell_0-4.bg-correct-index"))
     end
 
     test "backgrounds do not change", %{
@@ -83,13 +84,15 @@ defmodule WordleCloneWeb.WordFeatureTest do
 
       input_guess(session, incorrect_guess, 0)
 
-      assert_has(session, Query.css("#row_0 .bg-base-300", count: 4))
-      assert_has(session, Query.css("#row_0 .bg-green-700", count: 1))
+      assert_has(session, Query.css("#row_0 .bg-incorrect-guess", count: 3))
+      assert_has(session, Query.css("#row_0 .bg-incorrect-index", count: 1))
+      assert_has(session, Query.css("#row_0 .bg-correct-index", count: 1))
 
       input_guess(session, correct_guess, 1)
 
-      assert_has(session, Query.css("#row_0 .bg-base-300", count: 4))
-      assert_has(session, Query.css("#row_0 .bg-green-700", count: 1))
+      assert_has(session, Query.css("#row_0 .bg-incorrect-guess", count: 3))
+      assert_has(session, Query.css("#row_0 .bg-incorrect-index", count: 1))
+      assert_has(session, Query.css("#row_0 .bg-correct-index", count: 1))
     end
   end
 
