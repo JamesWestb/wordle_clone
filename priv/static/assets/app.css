@@ -1317,10 +1317,6 @@ html {
   cursor: default;
 }
 
-.cursor-pointer {
-  cursor: pointer;
-}
-
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
@@ -1388,6 +1384,11 @@ html {
   background-color: hsl(var(--b3) / var(--tw-bg-opacity));
 }
 
+.bg-green-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(21 128 61 / var(--tw-bg-opacity));
+}
+
 .bg-secondary-content {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--sc) / var(--tw-bg-opacity));
@@ -1451,6 +1452,10 @@ html {
 .outline-none {
   outline: 2px solid transparent;
   outline-offset: 2px;
+}
+
+.filter {
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 .transition {
@@ -1682,7 +1687,7 @@ html {
   }
 }
 
-.guess-submit {
+.flip-cell {
   animation: shrink-vertical 0.5s 1;
 }
 

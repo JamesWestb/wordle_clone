@@ -28,7 +28,7 @@ const infoTextAnimation = (guessSubmitAnimation) => ({
         topRow.appendChild(textBox)
       }
 
-      guessSubmitAnimation(data.row, data.validation, this)
+      guessSubmitAnimation(data.row, data.validation, this, data.answer)
 
       setTimeout(() => {
         textBox.style.opacity = '1'

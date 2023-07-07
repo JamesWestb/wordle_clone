@@ -43,11 +43,11 @@ window.validationMessageKey = {
   correct: 'Genius'
 }
 
-function guessSubmitAnimation (row, validation, relay) {
+function guessSubmitAnimation (row, validation, relay, answer) {
   const currentRow = document.getElementById(`row_${row}`)
 
   if (validation == 'correct' || !validation) {
-    const childElements = currentRow.children
+    const childElements = Array.from(currentRow.children).filter(child => child.id !== "info_text_box");
 
     const animationCount = childElements.length
     let completedAnimations = 0
@@ -62,40 +62,50 @@ function guessSubmitAnimation (row, validation, relay) {
 
     Array.from(childElements).forEach((childElement, index) => {
       setTimeout(() => {
-        childElement.classList.add('guess-submit')
+        childElement.classList.add('flip-cell')
         const animationDuration =
           parseFloat(getComputedStyle(childElement).animationDuration) * 1000
         const delay = animationDuration - 200
 
-        let column = index
+        function permanentBackground (parentElement, answer, index) {
+          const inputCell = parentElement.firstElementChild
 
-        let background = 'bg-base-300'
-        const animationEndHandler = () => {
-          childElement.classList.remove('guess-submit')
-          const key = `${row}-${column}`
-          resultObject[key] = background
+          if (inputCell.value.toLowerCase() == answer[index]) {
+            return 'bg-green-700'
+          } else {
+            return 'bg-base-300'
+          }
+        }
+
+        const endFlipAnimation = () => {
+          childElement.classList.remove('flip-cell')
+
+          const key = `${row}-${index}`
+
+          resultObject[key] = permanentBackground(childElement, answer, index)
           completedAnimations++
 
           if (completedAnimations === animationCount) {
-
             relay.pushEvent('background-change', resultObject)
             document.removeEventListener('keydown', disableKeyboardEvents)
           }
         }
 
-        childElement.addEventListener('animationend', animationEndHandler)
+        childElement.addEventListener('animationend', endFlipAnimation)
 
         setTimeout(() => {
-          childElement.classList.add(background)
+          childElement.classList.add(
+            permanentBackground(childElement, answer, index)
+          )
         }, delay)
       }, index * 350)
     })
   } else {
     currentRow.classList.add('shake-element')
 
-    currentRow.addEventListener('animationend', onAnimationEnd)
+    currentRow.addEventListener('animationend', removeShake)
 
-    function onAnimationEnd () {
+    function removeShake () {
       currentRow.classList.remove('shake-element')
     }
   }

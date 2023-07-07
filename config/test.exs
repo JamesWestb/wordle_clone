@@ -26,7 +26,7 @@ config :wallaby,
   otp_app: :wordle_clone,
   screenshot_on_failure: true,
   driver: Wallaby.Chrome,
-  chromedriver: [headless: false]
+  chromedriver: [headless: true]
 
 # In test we don't send emails.
 config :wordle_clone, WordleClone.Mailer, adapter: Swoosh.Adapters.Test

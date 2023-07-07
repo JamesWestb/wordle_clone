@@ -87,7 +87,11 @@ defmodule WordleCloneWeb.WordLive.Index do
     else
       socket
       |> assign(changeset: GameUtilities.initiate_new_guess(changeset))
-      |> push_event("show-text-box", %{validation: nil, row: row(changeset.changes)})
+      |> push_event("show-text-box", %{
+        validation: nil,
+        row: row(changeset.changes),
+        answer: socket.assigns.answer
+      })
       |> noreply()
     end
   end
@@ -97,7 +101,11 @@ defmodule WordleCloneWeb.WordLive.Index do
          validation_message
        ) do
     socket
-    |> push_event("show-text-box", %{validation: validation_message, row: row(changeset.changes)})
+    |> push_event("show-text-box", %{
+      validation: validation_message,
+      row: row(changeset.changes),
+      answer: socket.assigns.answer
+    })
     |> noreply()
   end
 
