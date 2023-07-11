@@ -38,8 +38,12 @@
   margin: -1rem 0 2rem;
 }
 
+.bg-keyboard {
+  background-color: #737C85
+}
+
 .bg-incorrect-guess {
-  background-color: #374250
+  background-color: #384049
 }
 
 .bg-incorrect-index {

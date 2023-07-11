@@ -16,7 +16,7 @@ defmodule WordleCloneWeb.WordFeatureTest do
     %{correct_guess: correct_guess, incorrect_guess: incorrect_guess}
   end
 
-  describe "submit guess" do
+  describe "submit guess, input cells" do
     test "displays invalid length message", %{
       session: session,
       correct_guess: [_ | invalid_length_guess]
@@ -93,6 +93,35 @@ defmodule WordleCloneWeb.WordFeatureTest do
       assert_has(session, Query.css("#row_0 .bg-incorrect-guess", count: 3))
       assert_has(session, Query.css("#row_0 .bg-incorrect-index", count: 1))
       assert_has(session, Query.css("#row_0 .bg-correct-index", count: 1))
+    end
+  end
+
+  describe "submit guess, keyboard cells" do
+    test "updates keyboard background with guess index", %{
+      session: session,
+      correct_guess: correct_guess,
+      incorrect_guess: incorrect_guess
+    } do
+      visit(session, Routes.word_index_path(Endpoint, :index))
+
+      input_guess(session, incorrect_guess, 0)
+
+      Enum.each(["w", "o", "r"], fn value ->
+        assert_has(session, Query.css("#keyboard_cell_#{value}.bg-incorrect-guess"))
+      end)
+
+      assert_has(session, Query.css("#keyboard_cell_l.bg-incorrect-index"))
+      assert_has(session, Query.css("#keyboard_cell_d.bg-correct-index"))
+
+      input_guess(session, correct_guess, 1)
+
+      Enum.each(["w", "o", "r"], fn value ->
+        assert_has(session, Query.css("#keyboard_cell_#{value}.bg-incorrect-guess"))
+      end)
+
+      Enum.each(correct_guess, fn value ->
+        assert_has(session, Query.css("#keyboard_cell_#{value}.bg-correct-index"))
+      end)
     end
   end
 

@@ -11,6 +11,7 @@ defmodule WordleCloneWeb.WordLive.Index do
     socket
     |> assign(answer: WordBank.get_game_answer(153).name |> String.graphemes())
     |> assign(input_cell_backgrounds: %{})
+    |> assign(keyboard_backgrounds: %{})
     |> assign(changeset: Guesses.guess_changeset(%{}))
     |> assign(input_disabled: false)
     |> ok()
@@ -61,11 +62,26 @@ defmodule WordleCloneWeb.WordLive.Index do
 
   def handle_event(
         "background-change",
-        thing,
-        %{assigns: %{input_cell_backgrounds: input_cell_backgrounds}} = socket
+        updated_input_cell_backgrounds,
+        %{
+          assigns: %{
+            input_cell_backgrounds: input_cell_backgrounds,
+            keyboard_backgrounds: keyboard_backgrounds,
+            changeset: changeset
+          }
+        } = socket
       ) do
     socket
-    |> assign(input_cell_backgrounds: Map.merge(input_cell_backgrounds, thing))
+    |> assign(input_cell_backgrounds: Map.merge(input_cell_backgrounds, updated_input_cell_backgrounds))
+    |> assign(
+      keyboard_backgrounds:
+        GameUtilities.update_keyboard_backgrounds(
+          keyboard_backgrounds,
+          input_cell_backgrounds,
+          updated_input_cell_backgrounds,
+          changeset
+        )
+    )
     |> noreply()
   end
 

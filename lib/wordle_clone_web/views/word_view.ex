@@ -35,7 +35,7 @@ defmodule WordleCloneWeb.WordView do
     """
   end
 
-  def keyboard do
+  def keyboard(keyboard_backgrounds) do
     keyboard_rows = [
       ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
       ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
@@ -47,7 +47,7 @@ defmodule WordleCloneWeb.WordView do
       <%= for keyboard_row <- keyboard_rows do %>
         <div class="flex justify-center gap-1 my-1 w-full h-full">
           <%= for value <- keyboard_row do %>
-            <%= keyboard_cell(value) %>
+            <%= keyboard_cell(value, keyboard_backgrounds) %>
           <% end %>
         </div>
       <% end %>
@@ -55,9 +55,9 @@ defmodule WordleCloneWeb.WordView do
     """
   end
 
-  defp keyboard_cell(value) when value == "backspace" do
+  defp keyboard_cell(value, _) when value == "backspace" do
     ~E"""
-    <kbd id="value" class="kbd kbd-lg cursor-default rounded-md" phx-click="keydown" phx-value-key="Backspace">
+    <kbd id="value" class="kbd kbd-lg text-slate-100 cursor-default rounded-md border-transparent bg-keyboard" phx-click="keydown" phx-value-key="Backspace">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9.75L14.25 12m0 0l2.25 2.25M14.25 12l2.25-2.25M14.25 12L12 14.25m-2.58 4.92l-6.375-6.375a1.125 1.125 0 010-1.59L9.42 4.83c.211-.211.498-.33.796-.33H19.5a2.25 2.25 0 012.25 2.25v10.5a2.25 2.25 0 01-2.25 2.25h-9.284c-.298 0-.585-.119-.796-.33z" />
       </svg>
@@ -65,16 +65,23 @@ defmodule WordleCloneWeb.WordView do
     """
   end
 
-  defp keyboard_cell(value) when value == "enter" do
+  defp keyboard_cell(value, _) when value == "enter" do
     ~E"""
-    <kbd id="<%= value %>" class="kbd kbd-lg cursor-default font-bold rounded-md py-3 text-xs"  phx-click="keydown" phx-value-key="Enter"><%= String.upcase(value) %></kbd>
+    <kbd id="<%= value %>" class="kbd kbd-lg text-slate-100 cursor-default font-bold border-transparent rounded-md py-3 text-xs bg-keyboard" phx-click="keydown" phx-value-key="Enter"><%= String.upcase(value) %></kbd>
     """
   end
 
-  defp keyboard_cell(value) do
+  defp keyboard_cell(value, keyboard_backgrounds) do
     ~E"""
-    <kbd id="<%= value %>" class="kbd kbd-lg cursor-default font-bold rounded-md py-3 px-1" phx-click="keydown" phx-value-key=<%= value %>><%= String.upcase(value) %></kbd>
+    <kbd id="keyboard_cell_<%= value %>" class="kbd kbd-lg text-slate-100 cursor-default font-bold font-sans border-transparent rounded-md py-3 px-1 <%= keyboard_background_color(keyboard_backgrounds, value) %>" phx-click="keydown" phx-value-key=<%= value %>><%= String.upcase(value) %></kbd>
     """
+  end
+
+  defp keyboard_background_color(keyboard_backgrounds, value) do
+    case Map.get(keyboard_backgrounds, value) do
+      nil -> "bg-keyboard"
+      background -> background
+    end
   end
 
   defp input_cell_border_color(""), do: "border-gray-600"

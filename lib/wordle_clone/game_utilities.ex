@@ -74,4 +74,43 @@ defmodule WordleClone.GameUtilities do
   def current_guess_key(changes), do: encode_guess_key("#{map_size(changes) - 1}")
 
   defp encode_guess_key(row_index), do: ("guess_" <> row_index) |> String.to_atom()
+
+  def update_keyboard_backgrounds(
+        keyboard_backgrounds,
+        last_input_cell_backgrounds,
+        new_input_cell_backgrounds,
+        changeset
+      ) do
+    background_values = %{
+      "bg-incorrect-guess" => 1,
+      "bg-incorrect-index" => 2,
+      "bg-correct-index" => 3
+    }
+
+    if new_input_cell_backgrounds == last_input_cell_backgrounds do
+      keyboard_backgrounds
+    else
+      Enum.reduce(new_input_cell_backgrounds, keyboard_backgrounds, fn {cell_indices, _}, acc ->
+        input_value = cell_indices |> find_input_cell_value(changeset) |> String.downcase()
+
+        last_background = Map.get(keyboard_backgrounds, input_value)
+        new_background = Map.get(new_input_cell_backgrounds, cell_indices)
+
+        updated_background =
+          greatest_background(last_background, new_background, background_values)
+
+        Map.put(acc, input_value, updated_background)
+      end)
+    end
+  end
+
+  defp greatest_background(nil, new_background, _background_values), do: new_background
+
+  defp greatest_background(last_background, new_background, background_values) do
+    if Map.get(background_values, new_background) > Map.get(background_values, last_background) do
+      new_background
+    else
+      last_background
+    end
+  end
 end
