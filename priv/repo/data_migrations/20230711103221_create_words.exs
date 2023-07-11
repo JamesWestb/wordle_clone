@@ -1,6 +1,8 @@
 defmodule WordleClone.Repo.Migrations.CreateWords do
   use Ecto.Migration
 
+  import Ecto.Query, warn: false
+
   alias WordleClone.Repo
   alias WordleClone.WordBank.Word
 
