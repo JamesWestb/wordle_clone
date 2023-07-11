@@ -9,11 +9,9 @@ defmodule WordleClone.Repo.Migrations.CreateWords do
 
     Enum.each(words, &Repo.insert!(%Word{name: &1}))
 
-    game_solutions = Application.get_env(:wordle_clone, :game_solutions)
-
     Repo.update_all(
       from(word in Word,
-        where: word.name in ^game_solutions
+        where: word.name in Application.get_env(:wordle_clone, :game_solutions)
       ),
       set: [game_solution: true]
     )
