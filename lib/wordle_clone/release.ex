@@ -9,8 +9,22 @@ defmodule WordleClone.Release do
     load_app()
 
     for repo <- repos() do
-      {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :up, all: true))
+      path = Ecto.Migrator.migrations_path(repo)
+      run_migrations(repo, path)
     end
+  end
+
+  def migrate_data do
+    load_app()
+
+    for repo <- repos() do
+      path = Ecto.Migrator.migrations_path(repo, "data_migrations")
+      run_migrations(repo, path)
+    end
+  end
+
+  defp run_migrations(repo, path) do
+    {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, path, :up, all: true))
   end
 
   def rollback(repo, version) do

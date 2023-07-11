@@ -72,7 +72,9 @@ defmodule WordleCloneWeb.WordLive.Index do
         } = socket
       ) do
     socket
-    |> assign(input_cell_backgrounds: Map.merge(input_cell_backgrounds, updated_input_cell_backgrounds))
+    |> assign(
+      input_cell_backgrounds: Map.merge(input_cell_backgrounds, updated_input_cell_backgrounds)
+    )
     |> assign(
       keyboard_backgrounds:
         GameUtilities.update_keyboard_backgrounds(
