@@ -2,6 +2,7 @@ defmodule WordleClone.Repo.Migrations.CreateWords do
   use Ecto.Migration
 
   alias WordleClone.Repo
+  alias WordleClone.WordBank.Word
 
   def up do
     words = WordList.getStream!() |> Enum.filter(&(String.length(&1) == 5))
