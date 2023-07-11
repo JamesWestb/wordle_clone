@@ -1,5 +1,5 @@
 <nav class="border-b border-gray-600 w-screen">
-  <%= img_tag(Routes.static_path(@socket, "/images/logo.png"), class: "h-16 w-42 -translate-x-4 translate-y-1 mx-auto") %>
+  <%= img_tag(Routes.static_url(@socket, "/images/logo.png"), class: "h-16 w-42 translate-y-1 mx-auto") %>
 </nav>
 <div phx-window-keydown="keydown" phx-window-keyup="keyup" id="game_container" phx-hook="infoTextAnimation" class="flex flex-wrap items-top justify-center w-screen">
   <%= WordleCloneWeb.WordView.text_input_grid(@input_cell_backgrounds, @changeset) %>
