@@ -39,11 +39,11 @@
 }
 
 .bg-keyboard {
-  background-color: #737C85
+  background-color: #737C85;
 }
 
 .bg-incorrect-guess {
-  background-color: #384049
+  background-color: #384049;
 }
 
 .bg-incorrect-index {
@@ -52,6 +52,10 @@
 
 .bg-correct-index {
   background-color:#538D4E;
+}
+
+.linkedin-logo {
+  color:#0C66C2;
 }
 
 /* LiveView specific classes for your customization */
@@ -82,11 +86,14 @@
 }
 
 .phx-modal-content {
-  background-color: #fefefe;
-  margin: 15vh auto;
+  opacity: .9!important;
+  background-color: #f2f2f2;
+  border-radius: 7px;
+  margin: 10vh auto;
   padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+  border: 0;
+  width: 30%;
+  height: 50%
 }
 
 .phx-modal-close {

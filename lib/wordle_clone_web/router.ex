@@ -20,6 +20,7 @@ defmodule WordleCloneWeb.Router do
     get "/", PageController, :index
 
     live "/word", WordLive.Index, :index
+    live "/word/contact", WordLive.Index, :contact
   end
 
   if Mix.env() in [:dev, :test] do

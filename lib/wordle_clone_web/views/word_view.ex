@@ -29,7 +29,7 @@ defmodule WordleCloneWeb.WordView do
     input_value = GameUtilities.find_input_cell_value(cell_indices, changeset)
 
     ~E"""
-    <div class="relative w-16 h-16 col-span-1 pointer-events-none">
+    <div class="relative w-16 h-16 col-span-1 pointer-events-none select-none">
       <input id="input_cell_<%= cell_indices %>" type="text" value="<%= input_value %>" class="w-full h-full p-4 <%= input_cell_background_color(input_cell_backgrounds, input_value, cell_indices) %> text-slate-100 rounded-sm text-3xl text-center font-bold cursor-default" maxlength="1">
     </div>
     """

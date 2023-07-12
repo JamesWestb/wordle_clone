@@ -26,6 +26,7 @@ import { LiveSocket } from 'phoenix_live_view'
 import topbar from '../vendor/topbar'
 import infoTextAnimation from './hooks/info_text_animation'
 import characterInputAnimation from './hooks/character_input_animation'
+import copyEmail from './hooks/copy_email'
 
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
@@ -121,7 +122,8 @@ function guessSubmitAnimation (row, validation, relay, answer) {
 
 const Hooks = {
   infoTextAnimation: infoTextAnimation(guessSubmitAnimation),
-  characterInputAnimation
+  characterInputAnimation,
+  copyEmail
 }
 
 let liveSocket = new LiveSocket('/live', Socket, {

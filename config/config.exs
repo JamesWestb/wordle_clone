@@ -26,6 +26,8 @@ config :wordle_clone, WordleCloneWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :wordle_clone, WordleClone.Mailer, adapter: Swoosh.Adapters.Local
 
+config :wordle_clone, contact_email: System.get_env("CONTACT_EMAIL") || "test@email.com"
+
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.14.29",
