@@ -36,10 +36,10 @@ defmodule WordleCloneWeb.LiveHelpers do
         phx-key="escape"
       >
         <%= if @return_to do %>
-          <%= live_patch "✖",
+          <%= live_patch "×",
             to: @return_to,
             id: "close",
-            class: "phx-modal-close",
+            class: "phx-modal-close z-10 relative",
             phx_click: hide_modal()
           %>
         <% else %>

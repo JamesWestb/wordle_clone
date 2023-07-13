@@ -1,13 +1,25 @@
-<%= if @live_action in [:contact] do %>
- <.modal return_to={Routes.word_index_path(@socket, :index)}>
-    <.live_component
-      module={WordleCloneWeb.WordLive.ContactComponent}
-      id={:contact}
-      title={@page_title}
-      action={@live_action}
-      email_copied={false}
-    />
-  </.modal>
+<%= if @live_action in [:info, :contact] do %>
+  <%= case @live_action do %>
+    <% :info -> %>
+      <.modal return_to={Routes.word_index_path(@socket, :index)}>
+        <.live_component
+          module={WordleCloneWeb.WordLive.InfoComponent}
+          id={:info}
+          title={@page_title}
+          action={@live_action}
+        />
+      </.modal>
+    <% :contact -> %>
+      <.modal return_to={Routes.word_index_path(@socket, :index)}>
+        <.live_component
+          module={WordleCloneWeb.WordLive.ContactComponent}
+          id={:contact}
+          title={@page_title}
+          action={@live_action}
+          email_copied={false}
+        />
+      </.modal>
+    <%end %>
 <% end %>
 <nav class="border-b border-gray-600 w-screen flex px-6 justify-between items-center text-slate-300">
   <%= link to: "https://github.com/JamesWestb/wordle_clone" do %>

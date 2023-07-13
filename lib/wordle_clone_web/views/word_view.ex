@@ -4,8 +4,8 @@ defmodule WordleCloneWeb.WordView do
 
   def text_input_grid(input_cell_backgrounds, changeset) do
     ~E"""
-    <div id="text_input_grid" phx-hook="characterInputAnimation" class="grid grid-cols-1 self-start mt-5 mb-5 gap-y-2">
-      <div class="grid grid-cols-1 col-span-1 gap-2">
+    <div id="text_input_grid" phx-hook="characterInputAnimation" class="grid grid-cols-1 self-start mt-5 mb-5 gap-y-1">
+      <div class="grid grid-cols-1 col-span-1 gap-1.5">
         <%= for row_index <- 0..5 do %>
           <%= text_input_row(input_cell_backgrounds, row_index, changeset) %>
         <% end %>
@@ -16,7 +16,7 @@ defmodule WordleCloneWeb.WordView do
 
   defp text_input_row(input_cell_backgrounds, row_index, changeset) do
     ~E"""
-    <div id="row_<%= row_index %>" class="col-span-1 grid grid-cols-5 gap-2 flex justify-items-center">
+    <div id="row_<%= row_index %>" class="col-span-1 grid grid-cols-5 gap-1.5 flex justify-items-center">
       <%= for column_index <- 0..4 do %>
         <%= text_input_cell(input_cell_backgrounds, row_index, column_index, changeset) %>
       <% end%>
@@ -43,9 +43,9 @@ defmodule WordleCloneWeb.WordView do
     ]
 
     ~E"""
-    <div class="w-full h-1/3">
+    <div class="w-full h-full">
       <%= for keyboard_row <- keyboard_rows do %>
-        <div class="flex justify-center gap-1 my-1 w-full h-full">
+        <div class="flex justify-center gap-1 mb-1.5 w-full h-full">
           <%= for value <- keyboard_row do %>
             <%= keyboard_cell(value, keyboard_backgrounds) %>
           <% end %>

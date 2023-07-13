@@ -24,9 +24,10 @@ defmodule WordleCloneWeb.WordLive.Index do
     |> noreply()
   end
 
-  defp apply_action(socket, :index, _params), do: assign(socket, :page_title, "LiveView Wordle")
-  defp apply_action(socket, :contact, _params), do: assign(socket, :page_title, "Contact")
+  defp apply_action(socket, action, _params) when action in [:index, :info],
+    do: assign(socket, :page_title, "LiveView Wordle")
 
+  defp apply_action(socket, :contact, _params), do: assign(socket, :page_title, "Contact")
 
   @impl true
   def handle_event("keydown", %{"key" => "Enter"}, %{assigns: %{changeset: changeset}} = socket) do

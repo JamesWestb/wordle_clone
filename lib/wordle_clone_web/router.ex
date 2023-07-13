@@ -17,10 +17,10 @@ defmodule WordleCloneWeb.Router do
   scope "/", WordleCloneWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    live "/", WordLive.Index, :info
 
-    live "/word", WordLive.Index, :index
-    live "/word/contact", WordLive.Index, :contact
+    live "/play", WordLive.Index, :index
+    live "/contact", WordLive.Index, :contact
   end
 
   if Mix.env() in [:dev, :test] do
