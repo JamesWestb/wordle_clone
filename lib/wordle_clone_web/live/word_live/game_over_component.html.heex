@@ -1,4 +1,4 @@
-<div class="isolate mx-10 h-full grid grid-cols place-items-center">
+<div phx-window-keydown="keydown" phx-target={@myself} class="isolate mx-10 h-full grid grid-cols place-items-center">
   <%= if @game_win do %>
     <div id="game_win_header" class="flex flex-col place-items-center">
       <h2 class="text-xl font-medium tracking-tight text-center text-slate-300 sm:text-2xl">You Win!</h2>
