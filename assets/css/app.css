@@ -96,6 +96,18 @@
   height: 50%
 }
 
+
+.phx-modal-content-sm {
+  opacity: .95!important;
+  background-color: #090c0e;
+  border-radius: 7px;
+  margin: 10vh auto;
+  padding: 20px;
+  border: 0;
+  width: 25%;
+  height: 35%
+}
+
 .phx-modal-close {
   color: #c1c1c1;
   float: right;

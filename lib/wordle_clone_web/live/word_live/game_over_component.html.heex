@@ -1,0 +1,23 @@
+<div class="isolate mx-10 h-full grid grid-cols place-items-center">
+  <%= if @game_win do %>
+    <div id="game_win_header" class="flex flex-col place-items-center">
+      <h2 class="text-xl font-medium tracking-tight text-center text-slate-300 sm:text-2xl">You Win!</h2>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-14 h-14 mt-4">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
+      </svg>
+    </div>
+  <% else %>
+    <div id="game_lose_header" class="flex flex-col place-items-center">
+      <h2 class="text-xl font-medium tracking-tight text-center text-slate-300 sm:text-4xl">Game Over</h2>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-14 h-14 mt-4">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 16.318A4.486 4.486 0 0012.016 15a4.486 4.486 0 00-3.198 1.318M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
+      </svg>
+    </div>
+  <% end %>
+  <p class="text-xl text-center max-w-lg space-y-6">The solution was: <span class="bg-slate-400 rounded px-2 py-1 text-slate-900"><%= List.to_string(@answer) |> String.upcase() %></span></p>
+  <div>
+    <%= link to: Routes.word_index_path(@socket, :index) do %>
+      <button type="button" class="rounded-md bg-correct-index hover:brightness-110 px-3.5 py-2.5 text-lg font-semibold text-slate-200 shadow-sm">Play again</button>
+    <% end %>
+  </div>
+</div>

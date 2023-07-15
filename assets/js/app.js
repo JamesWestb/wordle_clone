@@ -24,7 +24,8 @@ import 'phoenix_html'
 import { Socket } from 'phoenix'
 import { LiveSocket } from 'phoenix_live_view'
 import topbar from '../vendor/topbar'
-import infoTextAnimation from './hooks/info_text_animation'
+import validationTextAnimation from './hooks/validation_text_animation'
+import guessSubmitAnimation from './hooks/guess_submit_animation'
 import characterInputAnimation from './hooks/character_input_animation'
 import copyEmail from './hooks/copy_email'
 
@@ -44,84 +45,10 @@ window.validationMessageKey = {
   correct: 'Genius'
 }
 
-function guessSubmitAnimation (row, validation, relay, answer) {
-  const currentRow = document.getElementById(`row_${row}`)
-
-  if (validation == 'correct' || !validation) {
-    const childElements = Array.from(currentRow.children).filter(
-      child => child.id !== 'info_text_box'
-    )
-
-    const animationCount = childElements.length
-    let completedAnimations = 0
-    const resultObject = {}
-
-    document.addEventListener('keydown', disableKeyboardEvents)
-
-    function disableKeyboardEvents (event) {
-      event.preventDefault()
-      event.stopPropagation()
-    }
-
-    Array.from(childElements).forEach((childElement, index) => {
-
-      setTimeout(() => {
-        childElement.classList.add('flip-cell')
-
-        const animationDuration =
-          parseFloat(getComputedStyle(childElement).animationDuration) * 1000
-        const delay = animationDuration - 200
-
-        function permanentBackground (parentElement, answer, index) {
-          const inputCell = parentElement.firstElementChild
-
-          inputCell.classList.add('border-none')
-
-          if (inputCell.value.toLowerCase() == answer[index]) {
-            return 'bg-correct-index'
-          } else if (answer.includes(inputCell.value.toLowerCase())) {
-            return 'bg-incorrect-index'
-          } else {
-            return 'bg-incorrect-guess'
-          }
-        }
-
-        const endFlipAnimation = () => {
-          childElement.classList.remove('flip-cell')
-
-          const key = `${row}-${index}`
-
-          resultObject[key] = permanentBackground(childElement, answer, index)
-          completedAnimations++
-
-          if (completedAnimations === animationCount) {
-            relay.pushEvent('background-change', resultObject)
-            document.removeEventListener('keydown', disableKeyboardEvents)
-          }
-        }
-
-        childElement.addEventListener('animationend', endFlipAnimation)
-
-        setTimeout(() => {
-          childElement.classList.add(
-            permanentBackground(childElement, answer, index)
-          )
-        }, delay)
-      }, index * 350)
-    })
-  } else {
-    currentRow.classList.add('shake-element')
-
-    currentRow.addEventListener('animationend', removeShake)
-
-    function removeShake () {
-      currentRow.classList.remove('shake-element')
-    }
-  }
-}
 
 const Hooks = {
-  infoTextAnimation: infoTextAnimation(guessSubmitAnimation),
+  validationTextAnimation,
+  guessSubmitAnimation,
   characterInputAnimation,
   copyEmail
 }

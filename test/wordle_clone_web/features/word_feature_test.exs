@@ -23,7 +23,7 @@ defmodule WordleCloneWeb.WordFeatureTest do
     } do
       session
       |> visit(Routes.word_index_path(Endpoint, :index))
-      |> input_guess(invalid_length_guess, 0)
+      |> input_guess(invalid_length_guess)
       |> assert_text(Query.css("#info_text_box"), "Not enough letters")
     end
 
@@ -37,21 +37,21 @@ defmodule WordleCloneWeb.WordFeatureTest do
     test "displays invalid data message when word does not exist in database", %{session: session} do
       session
       |> visit(Routes.word_index_path(Endpoint, :index))
-      |> input_guess(["t", "h", "i", "n", "g"], 0)
+      |> input_guess(["t", "h", "i", "n", "g"])
       |> assert_text(Query.css("#info_text_box"), "Not in word list")
     end
 
     test "displays correct guess message", %{session: session, correct_guess: correct_guess} do
       session
       |> visit(Routes.word_index_path(Endpoint, :index))
-      |> input_guess(correct_guess, 0)
+      |> input_guess(correct_guess)
       |> assert_text(Query.css("#info_text_box"), "Genius")
     end
 
     test "animates guess submit", %{session: session, correct_guess: correct_guess} do
       session
       |> visit(Routes.word_index_path(Endpoint, :index))
-      |> input_guess(correct_guess, 0)
+      |> input_guess(correct_guess)
       |> assert_has(Query.css(".flip-cell"))
     end
 
@@ -63,7 +63,7 @@ defmodule WordleCloneWeb.WordFeatureTest do
 
       assert_has(session, Query.css("#row_0 .bg-transparent", count: 5))
 
-      input_guess(session, incorrect_guess, 0)
+      input_guess(session, incorrect_guess)
 
       Enum.each(0..2, fn index ->
         assert_has(session, Query.css("#input_cell_0-#{index}.bg-incorrect-guess"))
@@ -82,7 +82,7 @@ defmodule WordleCloneWeb.WordFeatureTest do
 
       assert_has(session, Query.css("#row_0 .bg-transparent", count: 5))
 
-      input_guess(session, incorrect_guess, 0)
+      input_guess(session, incorrect_guess)
 
       assert_has(session, Query.css("#row_0 .bg-incorrect-guess", count: 3))
       assert_has(session, Query.css("#row_0 .bg-incorrect-index", count: 1))
@@ -102,9 +102,12 @@ defmodule WordleCloneWeb.WordFeatureTest do
       correct_guess: correct_guess,
       incorrect_guess: incorrect_guess
     } do
+      word = insert(:word, name: "angel", game_solution: false)
+      incorrect_guess_2 = String.graphemes(word.name)
+
       visit(session, Routes.word_index_path(Endpoint, :index))
 
-      input_guess(session, incorrect_guess, 0)
+      input_guess(session, incorrect_guess)
 
       Enum.each(["w", "o", "r"], fn value ->
         assert_has(session, Query.css("#keyboard_cell_#{value}.bg-incorrect-guess"))
@@ -113,19 +116,47 @@ defmodule WordleCloneWeb.WordFeatureTest do
       assert_has(session, Query.css("#keyboard_cell_l.bg-incorrect-index"))
       assert_has(session, Query.css("#keyboard_cell_d.bg-correct-index"))
 
-      input_guess(session, correct_guess, 1)
+      input_guess(session, incorrect_guess_2, 1)
 
       Enum.each(["w", "o", "r"], fn value ->
         assert_has(session, Query.css("#keyboard_cell_#{value}.bg-incorrect-guess"))
       end)
 
-      Enum.each(correct_guess, fn value ->
-        assert_has(session, Query.css("#keyboard_cell_#{value}.bg-correct-index"))
-      end)
+      assert_has(session, Query.css("#keyboard_cell_l.bg-incorrect-index"))
+      assert_has(session, Query.css("#keyboard_cell_d.bg-correct-index"))
     end
   end
 
-  defp input_guess(session, guess, row) do
+  describe "game end" do
+    # Process.sleep/1 is necessary because the LiveView is updated via a message sent from the client after a
+    # timeout in the guessSubmitAnimation hook. Consider exploring methods to override timeout in the test environment
+    test "redirects when six guesses are submitted", %{
+      session: session,
+      incorrect_guess: incorrect_guess
+    } do
+      visit(session, Routes.word_index_path(Endpoint, :index))
+
+      Enum.each(0..5, fn index ->
+        input_guess(session, incorrect_guess, index)
+        Process.sleep(2000)
+      end)
+
+      assert_has(session, Query.css("#game_lose_header"))
+    end
+
+    test "redirects when a correct guess is submitted", %{
+      session: session,
+      correct_guess: correct_guess
+    } do
+      visit(session, Routes.word_index_path(Endpoint, :index))
+
+      input_guess(session, correct_guess)
+
+      assert_has(session, Query.css("#game_win_header"))
+    end
+  end
+
+  defp input_guess(session, guess, row \\ 0) do
     Enum.each(0..(length(guess) - 1), fn index ->
       input_value = guess |> Enum.at(index)
 

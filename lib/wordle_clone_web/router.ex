@@ -20,6 +20,7 @@ defmodule WordleCloneWeb.Router do
     live "/", WordLive.Index, :info
 
     live "/play", WordLive.Index, :index
+    live "/game_over", WordLive.Index, :game_over
     live "/contact", WordLive.Index, :contact
   end
 

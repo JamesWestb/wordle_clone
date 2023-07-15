@@ -5,6 +5,7 @@ defmodule WordleCloneWeb.WordLive.Index do
   alias WordleClone.GameUtilities
   alias WordleClone.Guesses
   alias WordleClone.WordBank
+  alias WordleCloneWeb.Router.Helpers, as: Routes
 
   @impl true
   def mount(_params, _session, socket) do
@@ -14,6 +15,7 @@ defmodule WordleCloneWeb.WordLive.Index do
     |> assign(keyboard_backgrounds: %{})
     |> assign(changeset: Guesses.guess_changeset(%{}))
     |> assign(input_disabled: false)
+    |> assign(game_win: false)
     |> ok()
   end
 
@@ -29,12 +31,18 @@ defmodule WordleCloneWeb.WordLive.Index do
 
   defp apply_action(socket, :contact, _params), do: assign(socket, :page_title, "Contact")
 
+  defp apply_action(socket, :game_over, %{"game_win" => game_win?}) do
+    socket
+    |> assign(:game_win, game_win? == "true")
+    |> assign(:page_title, "Game over!")
+  end
+
   @impl true
   def handle_event("keydown", %{"key" => "Enter"}, %{assigns: %{changeset: changeset}} = socket) do
     case get_error(changeset) do
-      nil -> submit_guess(socket, changeset)
-      "not in word bank" -> push_info_text_animation(socket, :not_in_database)
-      _ -> push_info_text_animation(socket, :invalid_length)
+      nil -> submit_guess(socket)
+      "not in word bank" -> socket |> push_submit_animation(:not_in_database) |> noreply()
+      _ -> socket |> push_submit_animation(:invalid_length) |> noreply()
     end
   end
 
@@ -67,24 +75,40 @@ defmodule WordleCloneWeb.WordLive.Index do
           assigns: %{
             input_cell_backgrounds: input_cell_backgrounds,
             keyboard_backgrounds: keyboard_backgrounds,
-            changeset: changeset
+            changeset: changeset,
+            answer: answer
           }
         } = socket
       ) do
-    socket
-    |> assign(
-      input_cell_backgrounds: Map.merge(input_cell_backgrounds, updated_input_cell_backgrounds)
-    )
-    |> assign(
-      keyboard_backgrounds:
-        GameUtilities.update_keyboard_backgrounds(
-          keyboard_backgrounds,
-          input_cell_backgrounds,
-          updated_input_cell_backgrounds,
-          changeset
-        )
-    )
-    |> noreply()
+    empty_guess? = Enum.any?(changeset.changes, fn {_, guess} -> Enum.empty?(guess) end)
+
+    if GameUtilities.current_guess(changeset) == answer ||
+         (map_size(changeset.changes) > 5 && !empty_guess?) do
+      socket
+      |> push_submit_animation(:correct)
+      |> push_redirect(
+        to:
+          Routes.word_index_path(socket, :game_over, %{
+            game_win: GameUtilities.current_guess(changeset) == answer
+          })
+      )
+      |> noreply()
+    else
+      socket
+      |> assign(
+        input_cell_backgrounds: Map.merge(input_cell_backgrounds, updated_input_cell_backgrounds)
+      )
+      |> assign(
+        keyboard_backgrounds:
+          GameUtilities.update_keyboard_backgrounds(
+            keyboard_backgrounds,
+            input_cell_backgrounds,
+            updated_input_cell_backgrounds,
+            changeset
+          )
+      )
+      |> noreply()
+    end
   end
 
   defp handle_guess_input(%{assigns: %{changeset: changeset}} = socket, key) do
@@ -99,32 +123,32 @@ defmodule WordleCloneWeb.WordLive.Index do
     end
   end
 
-  defp submit_guess(%{assigns: %{answer: answer}} = socket, changeset) do
+  defp submit_guess(%{assigns: %{answer: answer, changeset: changeset}} = socket) do
     if GameUtilities.current_guess(changeset) == answer do
-      push_info_text_animation(socket, :correct)
+      socket
+      |> push_submit_animation(:correct)
+      |> noreply()
     else
       socket
+      |> push_submit_animation(nil)
       |> assign(changeset: GameUtilities.initiate_new_guess(changeset))
-      |> push_event("show-text-box", %{
-        validation: nil,
-        row: row(changeset.changes),
-        answer: socket.assigns.answer
-      })
       |> noreply()
     end
   end
 
-  defp push_info_text_animation(
-         %{assigns: %{changeset: changeset}} = socket,
+  defp push_submit_animation(
+         %{assigns: %{changeset: changeset, answer: answer}} = socket,
          validation_message
        ) do
-    socket
-    |> push_event("show-text-box", %{
-      validation: validation_message,
+    hook_attrs = %{
       row: row(changeset.changes),
-      answer: socket.assigns.answer
-    })
-    |> noreply()
+      validation: validation_message,
+      answer: answer
+    }
+
+    socket
+    |> push_event("animate-validation-text", hook_attrs)
+    |> push_event("animate-guess-submit", hook_attrs)
   end
 
   defp push_input_animation(%{assigns: %{changeset: changeset}} = socket) do

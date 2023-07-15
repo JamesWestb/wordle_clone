@@ -93,18 +93,6 @@ defmodule WordleCloneWeb.WordLiveTest do
     end
   end
 
-  describe "guess submit" do
-    setup do
-      word_1 = insert(:word, name: "valid", game_solution: true, id: 200)
-      word_2 = insert(:word, name: "world", game_solution: false)
-
-      correct_guess = String.graphemes(word_1.name)
-      incorrect_guess = String.graphemes(word_2.name)
-
-      %{words: [word_1, word_2], correct_guess: correct_guess, incorrect_guess: incorrect_guess}
-    end
-  end
-
   defp input_guess(live, guess) do
     Enum.each(0..4, fn index ->
       input_value = guess |> Enum.at(index)

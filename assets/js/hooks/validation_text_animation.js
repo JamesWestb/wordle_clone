@@ -1,6 +1,6 @@
-const infoTextAnimation = (guessSubmitAnimation) => ({
+export default {
   mounted () {
-    this.handleEvent('show-text-box', data => {
+    this.handleEvent('animate-validation-text', data => {
       validation = data.validation
       const textBox = document.createElement('div')
       textBox.textContent = window.validationMessageKey[validation]
@@ -28,8 +28,6 @@ const infoTextAnimation = (guessSubmitAnimation) => ({
         topRow.appendChild(textBox)
       }
 
-      guessSubmitAnimation(data.row, data.validation, this, data.answer)
-
       setTimeout(() => {
         textBox.style.opacity = '1'
       }, 0.8)
@@ -42,6 +40,4 @@ const infoTextAnimation = (guessSubmitAnimation) => ({
       }, 1500)
     })
   }
-})
-
-export default infoTextAnimation
+}
