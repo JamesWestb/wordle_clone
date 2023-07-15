@@ -29,8 +29,8 @@ defmodule WordleCloneWeb.WordView do
     input_value = GameUtilities.find_input_cell_value(cell_indices, changeset)
 
     ~E"""
-    <div class="relative w-16 h-16 col-span-1 pointer-events-none select-none">
-      <input id="input_cell_<%= cell_indices %>" type="text" value="<%= input_value %>" class="w-full h-full p-4 <%= input_cell_background_color(input_cell_backgrounds, input_value, cell_indices) %> text-slate-100 rounded-sm text-3xl text-center font-bold cursor-default" maxlength="1">
+    <div class="relative sm:w-16 sm:h-16 h-14 w-14 col-span-1 pointer-events-none select-none">
+      <input id="input_cell_<%= cell_indices %>" type="text" value="<%= input_value %>" class="w-full h-full p-3 <%= input_cell_background_color(input_cell_backgrounds, input_value, cell_indices) %> text-slate-100 rounded-sm text-3xl text-center font-bold cursor-default" maxlength="1">
     </div>
     """
   end
@@ -45,7 +45,7 @@ defmodule WordleCloneWeb.WordView do
     ~E"""
     <div class="w-full h-full">
       <%= for keyboard_row <- keyboard_rows do %>
-        <div class="flex justify-center gap-1 mb-1.5 w-full h-full ">
+        <div class="flex justify-center gap-1 mb-1.5 sm:w-full sm:h-full h-14">
           <%= for value <- keyboard_row do %>
             <%= keyboard_cell(value, keyboard_backgrounds) %>
           <% end %>
@@ -73,7 +73,7 @@ defmodule WordleCloneWeb.WordView do
 
   defp keyboard_cell(value, keyboard_backgrounds) do
     ~E"""
-    <kbd id="keyboard_cell_<%= value %>" class="kbd kbd-md sm:kbd-lg text-slate-100 cursor-default font-bold font-sans border-transparent rounded-md py-3 px-1 <%= keyboard_background_color(keyboard_backgrounds, value) %>" phx-click="keydown" phx-value-key=<%= value %>><%= String.upcase(value) %></kbd>
+    <kbd id="keyboard_cell_<%= value %>" phx-throttle="0" class="kbd kbd-md sm:kbd-lg text-slate-100 cursor-default font-bold font-sans border-transparent rounded-md py-2 sm:py-3 px-0 sm:px-1 <%= keyboard_background_color(keyboard_backgrounds, value) %>"><%= String.upcase(value) %></kbd>
     """
   end
 

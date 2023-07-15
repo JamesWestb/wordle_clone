@@ -917,11 +917,29 @@ html {
 }
 
 @media (hover:hover) {
+  .label a:hover {
+    --tw-text-opacity: 1;
+    color: hsl(var(--bc) / var(--tw-text-opacity));
+  }
+
   .table tr.hover:hover,
   .table tr.hover:nth-child(even):hover {
     --tw-bg-opacity: 1;
     background-color: hsl(var(--b2) / var(--tw-bg-opacity));
   }
+}
+
+.label {
+  display: flex;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .input {
@@ -1062,6 +1080,11 @@ html {
   color: hsl(var(--inc) / var(--tw-text-opacity));
   --alert-bg: hsl(var(--in));
   --alert-bg-mix: hsl(var(--b1));
+}
+
+.btm-nav > * .label {
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 
 @keyframes button-pop {
@@ -1278,24 +1301,6 @@ html {
   }
 }
 
-.kbd-xs {
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  min-height: 1.2em;
-  min-width: 1.2em;
-}
-
-.kbd-sm {
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  min-height: 1.6em;
-  min-width: 1.6em;
-}
-
 .kbd-md {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -1320,6 +1325,10 @@ html {
 
 .static {
   position: static;
+}
+
+.fixed {
+  position: fixed;
 }
 
 .absolute {
@@ -1360,11 +1369,6 @@ html {
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
-}
-
-.mx-4 {
-  margin-left: 1rem;
-  margin-right: 1rem;
 }
 
 .mb-1 {
@@ -1451,24 +1455,12 @@ html {
   height: 100%;
 }
 
-.h-1\/2 {
-  height: 50%;
-}
-
-.h-1\/4 {
-  height: 25%;
-}
-
 .w-10 {
   width: 2.5rem;
 }
 
 .w-14 {
   width: 3.5rem;
-}
-
-.w-16 {
-  width: 4rem;
 }
 
 .w-2 {
@@ -1493,14 +1485,6 @@ html {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-1\/2 {
-  width: 50%;
-}
-
-.w-1\/4 {
-  width: 25%;
 }
 
 .max-w-2xl {
@@ -1697,9 +1681,17 @@ html {
   padding: 1rem;
 }
 
-.px-1 {
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
+.p-2 {
+  padding: 0.5rem;
+}
+
+.p-3 {
+  padding: 0.75rem;
+}
+
+.px-0 {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .px-2 {
@@ -1742,16 +1734,6 @@ html {
   padding-bottom: 0.75rem;
 }
 
-.px-4 {
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
-.px-8 {
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-
 .pb-4 {
   padding-bottom: 1rem;
 }
@@ -1791,6 +1773,11 @@ html {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 
 .font-bold {
@@ -1877,6 +1864,26 @@ html {
 
 .duration-500 {
   transition-duration: 500ms;
+}
+
+@media (max-width: 480px) {
+  .phx-modal-content-sm {
+    width: 90%;
+  }
+
+  .phx-modal-content {
+    width: 90%;
+  }
+}
+
+@media (min-width: 481px) {
+  .phx-modal-content-sm {
+    width: 25%;
+  }
+
+  .phx-modal-content {
+    width: 30%;
+  }
 }
 
 /* This file is for your main application CSS */
@@ -1976,8 +1983,8 @@ html {
   border-radius: 7px;
   margin: 10vh auto;
   padding: 20px;
+  padding-bottom: 3rem;
   border: 0;
-  width: 30%;
   height: 50%
 }
 
@@ -1988,7 +1995,6 @@ html {
   margin: 10vh auto;
   padding: 20px;
   border: 0;
-  width: 25%;
   height: 35%
 }
 
@@ -2187,6 +2193,32 @@ html {
 }
 
 @media (min-width: 640px) {
+  .sm\:h-16 {
+    height: 4rem;
+  }
+
+  .sm\:h-full {
+    height: 100%;
+  }
+
+  .sm\:w-16 {
+    width: 4rem;
+  }
+
+  .sm\:w-full {
+    width: 100%;
+  }
+
+  .sm\:px-1 {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+
+  .sm\:py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
   .sm\:text-center {
     text-align: center;
   }
@@ -2199,5 +2231,10 @@ html {
   .sm\:text-4xl {
     font-size: 2.25rem;
     line-height: 2.5rem;
+  }
+
+  .sm\:text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
   }
 }

@@ -10,15 +10,6 @@ defmodule WordleClone.WordBank do
 
   def get_word!(id), do: Repo.get!(Word, id)
 
-  def get_game_answer(last_used_id) do
-    from(word in Word,
-      where: word.id > ^last_used_id and word.game_solution == true,
-      order_by: [asc: word.id],
-      limit: 1
-    )
-    |> Repo.one()
-  end
-
   def create_word(attrs \\ %{}) do
     %Word{}
     |> Word.changeset(attrs)
@@ -46,5 +37,15 @@ defmodule WordleClone.WordBank do
       where: word.name == ^string
     )
     |> Repo.exists?()
+  end
+
+  def get_random_word() do
+    from(word in Word,
+      select: word,
+      order_by: fragment("RANDOM()"),
+      where: word.game_solution,
+      limit: 1
+    )
+    |> Repo.one()
   end
 end

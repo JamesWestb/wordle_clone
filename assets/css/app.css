@@ -2,6 +2,24 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+@media (max-width: 480px) {
+  .phx-modal-content-sm {
+    width: 90%;
+  }
+  .phx-modal-content {
+    width: 90%;
+  }
+}
+
+@media (min-width: 481px) {
+  .phx-modal-content-sm {
+    width: 25%;
+  }
+  .phx-modal-content {
+    width: 30%;
+  }
+}
+
 /* This file is for your main application CSS */
 
 /* Alerts and form errors used by phx.new */
@@ -91,8 +109,8 @@
   border-radius: 7px;
   margin: 10vh auto;
   padding: 20px;
+  padding-bottom: 3rem;
   border: 0;
-  width: 30%;
   height: 50%
 }
 
@@ -104,7 +122,6 @@
   margin: 10vh auto;
   padding: 20px;
   border: 0;
-  width: 25%;
   height: 35%
 }
 

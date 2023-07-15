@@ -10,7 +10,7 @@ defmodule WordleCloneWeb.WordLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     socket
-    |> assign(answer: WordBank.get_game_answer(153).name |> String.graphemes())
+    |> assign(answer: WordBank.get_random_word().name |> String.graphemes())
     |> assign(input_cell_backgrounds: %{})
     |> assign(keyboard_backgrounds: %{})
     |> assign(changeset: Guesses.guess_changeset(%{}))
@@ -20,9 +20,9 @@ defmodule WordleCloneWeb.WordLive.Index do
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
+  def handle_params(params, _url, %{assigns: %{live_action: live_action}} = socket) do
     socket
-    |> apply_action(socket.assigns.live_action, params)
+    |> apply_action(live_action, params)
     |> noreply()
   end
 
@@ -31,11 +31,7 @@ defmodule WordleCloneWeb.WordLive.Index do
 
   defp apply_action(socket, :contact, _params), do: assign(socket, :page_title, "Contact")
 
-  defp apply_action(socket, :game_over, %{"game_win" => game_win?}) do
-    socket
-    |> assign(:game_win, game_win? == "true")
-    |> assign(:page_title, "Game over!")
-  end
+  defp apply_action(socket, :game_over, _params), do: assign(socket, :page_title, "Game over!")
 
   @impl true
   def handle_event("keydown", %{"key" => "Enter"}, %{assigns: %{changeset: changeset}} = socket) do
@@ -81,17 +77,12 @@ defmodule WordleCloneWeb.WordLive.Index do
         } = socket
       ) do
     empty_guess? = Enum.any?(changeset.changes, fn {_, guess} -> Enum.empty?(guess) end)
+    current_guess = GameUtilities.current_guess(changeset)
 
-    if GameUtilities.current_guess(changeset) == answer ||
-         (map_size(changeset.changes) > 5 && !empty_guess?) do
+    if current_guess == answer || (map_size(changeset.changes) > 5 && !empty_guess?) do
       socket
-      |> push_submit_animation(:correct)
-      |> push_redirect(
-        to:
-          Routes.word_index_path(socket, :game_over, %{
-            game_win: GameUtilities.current_guess(changeset) == answer
-          })
-      )
+      |> assign(:game_win, current_guess == answer)
+      |> assign(:live_action, :game_over)
       |> noreply()
     else
       socket
