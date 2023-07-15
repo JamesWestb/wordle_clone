@@ -1278,6 +1278,33 @@ html {
   }
 }
 
+.kbd-xs {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  min-height: 1.2em;
+  min-width: 1.2em;
+}
+
+.kbd-sm {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  min-height: 1.6em;
+  min-width: 1.6em;
+}
+
+.kbd-md {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  min-height: 2.2em;
+  min-width: 2.2em;
+}
+
 .kbd-lg {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -1333,6 +1360,11 @@ html {
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
+}
+
+.mx-4 {
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .mb-1 {
@@ -1419,6 +1451,14 @@ html {
   height: 100%;
 }
 
+.h-1\/2 {
+  height: 50%;
+}
+
+.h-1\/4 {
+  height: 25%;
+}
+
 .w-10 {
   width: 2.5rem;
 }
@@ -1453,6 +1493,14 @@ html {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-1\/2 {
+  width: 50%;
+}
+
+.w-1\/4 {
+  width: 25%;
 }
 
 .max-w-2xl {
@@ -1692,6 +1740,16 @@ html {
 .py-3 {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.px-8 {
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 .pb-4 {
@@ -2080,6 +2138,17 @@ html {
 
 .pop-cell {
   animation: pop 0.1s 1;
+}
+
+@media (min-width: 640px) {
+  .sm\:kbd-lg {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    min-height: 2.5em;
+    min-width: 2.5em;
+  }
 }
 
 .hover\:text-slate-100:hover {
