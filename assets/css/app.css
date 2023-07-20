@@ -4,9 +4,11 @@
 
 @media (max-width: 480px) {
   .phx-modal-content-sm {
+    height: 45%;
     width: 90%;
   }
   .phx-modal-content {
+    height: 50%;
     width: 90%;
   }
 }
@@ -14,9 +16,11 @@
 @media (min-width: 481px) {
   .phx-modal-content-sm {
     width: 25%;
+    height: 35%
   }
   .phx-modal-content {
     width: 30%;
+    height: 35%;
   }
 }
 
@@ -122,7 +126,6 @@
   margin: 10vh auto;
   padding: 20px;
   border: 0;
-  height: 35%
 }
 
 .phx-modal-close {

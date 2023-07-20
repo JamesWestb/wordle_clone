@@ -1348,6 +1348,11 @@ html {
   margin-bottom: 1rem;
 }
 
+.mx-6 {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+
 .mb-1 {
   margin-bottom: 0.25rem;
 }
@@ -1824,10 +1829,12 @@ html {
 
 @media (max-width: 480px) {
   .phx-modal-content-sm {
+    height: 45%;
     width: 90%;
   }
 
   .phx-modal-content {
+    height: 50%;
     width: 90%;
   }
 }
@@ -1835,10 +1842,12 @@ html {
 @media (min-width: 481px) {
   .phx-modal-content-sm {
     width: 25%;
+    height: 35%
   }
 
   .phx-modal-content {
     width: 30%;
+    height: 35%;
   }
 }
 
@@ -1951,7 +1960,6 @@ html {
   margin: 10vh auto;
   padding: 20px;
   border: 0;
-  height: 35%
 }
 
 .phx-modal-close {
@@ -2149,6 +2157,11 @@ html {
 }
 
 @media (min-width: 640px) {
+  .sm\:mx-8 {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+
   .sm\:h-16 {
     height: 4rem;
   }
@@ -2175,6 +2188,10 @@ html {
     padding-bottom: 0.75rem;
   }
 
+  .sm\:pt-4 {
+    padding-top: 1rem;
+  }
+
   .sm\:text-center {
     text-align: center;
   }
@@ -2187,5 +2204,10 @@ html {
   .sm\:text-4xl {
     font-size: 2.25rem;
     line-height: 2.5rem;
+  }
+
+  .sm\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
   }
 }
