@@ -15,7 +15,9 @@ defmodule WordleClone.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: WordleClone.PubSub},
       # Start the Endpoint (http/https)
-      WordleCloneWeb.Endpoint
+      WordleCloneWeb.Endpoint,
+      # Retry tasks
+      Supervisor.child_spec({Task.Supervisor, [name: WordleClone.TaskSupervisor, max_restarts: 3]}, restart: :transient),
       # Start a worker by calling: WordleClone.Worker.start_link(arg)
       # {WordleClone.Worker, arg}
     ]
