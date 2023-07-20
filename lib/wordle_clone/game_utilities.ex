@@ -25,12 +25,12 @@ defmodule WordleClone.GameUtilities do
     {row_index, column_index}
   end
 
-  def append_guess_list(changeset, new_character) do
-    current_key = current_guess_key(changeset.changes)
+  def append_guess_list(changeset, new_character, current_guess) do
+    current_key = encode_guess_key("#{current_guess}")
 
-    case current_key do
+    case Changeset.get_change(changeset, current_key) do
       nil ->
-        Guesses.guess_changeset(%{:guess_0 => [new_character]})
+        Guesses.guess_changeset(%{current_key => [new_character]})
 
       _ ->
         updated_guess = Changeset.get_change(changeset, current_key) ++ [new_character]
@@ -55,10 +55,10 @@ defmodule WordleClone.GameUtilities do
     end
   end
 
-  def initiate_new_guess(changeset) do
-    next_key = encode_guess_key("#{Enum.count(changeset.changes)}")
+  def initiate_new_guess(%Changeset{changes: changes}, next_guess) do
+    next_guess_key = encode_guess_key("#{next_guess}")
 
-    new_params = Map.merge(changeset.changes, %{next_key => []})
+    new_params = Map.merge(changes, %{next_guess_key => []})
 
     Guesses.guess_changeset(new_params)
   end

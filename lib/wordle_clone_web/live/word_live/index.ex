@@ -16,6 +16,7 @@ defmodule WordleCloneWeb.WordLive.Index do
     |> assign(changeset: Guesses.guess_changeset(%{}))
     |> assign(input_disabled: false)
     |> assign(game_win: false)
+    |> assign(current_guess: 0)
     |> ok()
   end
 
@@ -102,11 +103,11 @@ defmodule WordleCloneWeb.WordLive.Index do
     end
   end
 
-  defp handle_guess_input(%{assigns: %{changeset: changeset}} = socket, key) do
+  defp handle_guess_input(%{assigns: %{changeset: changeset, current_guess: current_guess}} = socket, key) do
     if find_error(changeset, "must be five characters") ||
          find_error(changeset, "must contain at least one guess") do
       socket
-      |> assign(changeset: GameUtilities.append_guess_list(changeset, key))
+      |> assign(changeset: GameUtilities.append_guess_list(changeset, key, current_guess))
       |> push_input_animation()
       |> noreply()
     else
@@ -114,15 +115,18 @@ defmodule WordleCloneWeb.WordLive.Index do
     end
   end
 
-  defp submit_guess(%{assigns: %{answer: answer, changeset: changeset}} = socket) do
+  defp submit_guess(%{assigns: %{answer: answer, changeset: changeset, current_guess: current_guess}} = socket) do
     if GameUtilities.current_guess(changeset) == answer do
       socket
       |> push_submit_animation(:correct)
       |> noreply()
     else
+      new_guess = current_guess + 1
+
       socket
       |> push_submit_animation(nil)
-      |> assign(changeset: GameUtilities.initiate_new_guess(changeset))
+      |> assign(current_guess: new_guess)
+      |> assign(changeset: GameUtilities.initiate_new_guess(changeset, new_guess))
       |> noreply()
     end
   end

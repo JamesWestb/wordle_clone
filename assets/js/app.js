@@ -28,6 +28,7 @@ import validationTextAnimation from './hooks/validation_text_animation'
 import guessSubmitAnimation from './hooks/guess_submit_animation'
 import characterInputAnimation from './hooks/character_input_animation'
 import copyEmail from './hooks/copy_email'
+import keyboardCellClick from './hooks/keyboard_cell_click'
 
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
@@ -50,7 +51,8 @@ const Hooks = {
   validationTextAnimation,
   guessSubmitAnimation,
   characterInputAnimation,
-  copyEmail
+  copyEmail,
+  keyboardCellClick
 }
 
 let liveSocket = new LiveSocket('/live', Socket, {

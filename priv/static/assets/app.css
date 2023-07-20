@@ -1677,14 +1677,6 @@ html {
   background-color: transparent;
 }
 
-.p-4 {
-  padding: 1rem;
-}
-
-.p-2 {
-  padding: 0.5rem;
-}
-
 .p-3 {
   padding: 0.75rem;
 }
@@ -1773,11 +1765,6 @@ html {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
-}
-
-.text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem;
 }
 
 .font-bold {
@@ -2205,8 +2192,8 @@ html {
     width: 4rem;
   }
 
-  .sm\:w-full {
-    width: 100%;
+  .sm\:w-7 {
+    width: 1.75rem;
   }
 
   .sm\:px-1 {
@@ -2231,10 +2218,5 @@ html {
   .sm\:text-4xl {
     font-size: 2.25rem;
     line-height: 2.5rem;
-  }
-
-  .sm\:text-3xl {
-    font-size: 1.875rem;
-    line-height: 2.25rem;
   }
 }
