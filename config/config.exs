@@ -28,6 +28,8 @@ config :wordle_clone, WordleClone.Mailer, adapter: Swoosh.Adapters.Local
 
 config :wordle_clone, contact_email: System.get_env("CONTACT_EMAIL") || "test@email.com"
 
+config :wordle_clone, resume_link: System.get_env("RESUME_LINK") || "#"
+
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.14.29",

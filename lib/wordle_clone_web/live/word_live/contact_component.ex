@@ -7,6 +7,7 @@ defmodule WordleCloneWeb.WordLive.ContactComponent do
     |> assign(:title, title)
     |> assign(:email_copied, email_copied)
     |> assign(:contact_email, Application.get_env(:wordle_clone, :contact_email))
+    |> assign(:resume_link, Application.get_env(:wordle_clone, :resume_link))
     |> ok()
   end
 

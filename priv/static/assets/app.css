@@ -1385,6 +1385,10 @@ html {
   margin-top: 2rem;
 }
 
+.mt-10 {
+  margin-top: 2.5rem;
+}
+
 .inline {
   display: inline;
 }
