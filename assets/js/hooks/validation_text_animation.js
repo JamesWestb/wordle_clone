@@ -16,7 +16,6 @@ export default {
         'text-base-100',
         'font-bold',
         'text-sm',
-        'mx-auto',
         '-translate-y-7',
         'animate-none'
       )
