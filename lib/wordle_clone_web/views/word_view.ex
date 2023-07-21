@@ -16,7 +16,7 @@ defmodule WordleCloneWeb.WordView do
 
   defp text_input_row(input_cell_backgrounds, row_index, changeset) do
     ~E"""
-    <div id="row_<%= row_index %>" class="col-span-1 grid grid-cols-5 gap-1.5 flex justify-items-center">
+    <div id="row_<%= row_index %>" class="col-span-1 gap-1.5 flex justify-items-center justify-center">
       <%= for column_index <- 0..4 do %>
         <%= text_input_cell(input_cell_backgrounds, row_index, column_index, changeset) %>
       <% end%>
@@ -57,7 +57,7 @@ defmodule WordleCloneWeb.WordView do
 
   defp keyboard_cell(value, _) when value == "backspace" do
     ~E"""
-    <kbd id="value" class="kbd kbd-lg text-slate-100 cursor-default rounded-md border-transparent bg-keyboard" phx-click="keydown" phx-value-key="Backspace">
+    <kbd id="<%= value %>" class="kbd kbd-lg text-slate-100 cursor-default rounded-md border-transparent bg-keyboard" phx-click="keydown" phx-value-key="Backspace">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 sm:w-7">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9.75L14.25 12m0 0l2.25 2.25M14.25 12l2.25-2.25M14.25 12L12 14.25m-2.58 4.92l-6.375-6.375a1.125 1.125 0 010-1.59L9.42 4.83c.211-.211.498-.33.796-.33H19.5a2.25 2.25 0 012.25 2.25v10.5a2.25 2.25 0 01-2.25 2.25h-9.284c-.298 0-.585-.119-.796-.33z" />
       </svg>

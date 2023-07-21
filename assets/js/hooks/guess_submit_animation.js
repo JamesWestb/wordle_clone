@@ -8,8 +8,8 @@ export default {
           (child) => child.id !== 'info_text_box'
         );
 
-        const animationCount = childElements.length;
-        let completedAnimations = 0;
+        const cellCount = childElements.length;
+        let completedFlipAnimations = 0;
         const resultObject = {};
 
         document.addEventListener('keydown', disableKeyboardEvents);
@@ -52,9 +52,9 @@ export default {
                 data.answer,
                 index
               );
-              completedAnimations++;
+              completedFlipAnimations++;
 
-              if (completedAnimations === animationCount) {
+              if (completedFlipAnimations === cellCount) {
                 this.pushEvent('background-change', resultObject);
                 document.removeEventListener('keydown', disableKeyboardEvents);
               }
