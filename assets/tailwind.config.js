@@ -16,5 +16,8 @@ module.exports = {
     plugin(({addVariant}) => addVariant('phx-submit-loading', ['&.phx-submit-loading', '.phx-submit-loading &'])),
     plugin(({addVariant}) => addVariant('phx-change-loading', ['&.phx-change-loading', '.phx-change-loading &'])),
     require("daisyui"),
-  ]
+  ],
+  daisyui: {
+    base: false,
+  }
 }
