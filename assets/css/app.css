@@ -4,16 +4,27 @@
 
 @media (max-width: 480px) {
   .phx-modal-content-sm {
-    height: 45%;
     width: 90%;
+    height: 45%;
   }
   .phx-modal-content {
-    height: 50%;
     width: 90%;
+    height: 50%;
   }
 }
 
-@media (min-width: 481px) {
+@media (min-width: 481px) and (max-width: 1200px) {
+  .phx-modal-content-sm {
+    width: 60%;
+    height: 50%
+  }
+  .phx-modal-content {
+    width: 60%;
+    height: 40%;
+  }
+}
+
+@media (min-width: 1201px) {
   .phx-modal-content-sm {
     width: 25%;
     height: 35%
