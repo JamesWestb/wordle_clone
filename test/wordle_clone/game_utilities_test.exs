@@ -50,16 +50,18 @@ defmodule WordleClone.GameUtilitiesTest do
 
     test "creates guess_0 when there are no changes" do
       changeset = Guesses.guess_changeset(%{})
+      current_guess = 0
 
       assert %Changeset{changes: %{guess_0: ["v"]}} =
-               GameUtilities.append_guess_list(changeset, "v")
+               GameUtilities.append_guess_list(changeset, "v", current_guess)
     end
 
     test "appends elements to guess" do
       changeset = Guesses.guess_changeset(%{guess_0: ["v"]})
+      current_guess = 0
 
-      updated_changeset_1 = GameUtilities.append_guess_list(changeset, "a")
-      updated_changeset_2 = GameUtilities.append_guess_list(updated_changeset_1, "l")
+      updated_changeset_1 = GameUtilities.append_guess_list(changeset, "a", current_guess)
+      updated_changeset_2 = GameUtilities.append_guess_list(updated_changeset_1, "l", current_guess)
 
       assert %Changeset{changes: %{guess_0: ["v", "a"]}} = updated_changeset_1
       assert %Changeset{changes: %{guess_0: ["v", "a", "l"]}} = updated_changeset_2
@@ -68,13 +70,14 @@ defmodule WordleClone.GameUtilitiesTest do
     test "appends elements to changes after guess_0" do
       guess_0 = ["v", "a", "l", "i", "d"]
       guess_1 = ["w", "o", "r", "l", "d"]
+      current_guess = 2
 
       changeset =
         Guesses.guess_changeset(%{guess_0: guess_0, guess_1: guess_1, guess_2: ["t", "w"]})
 
       assert %Changeset{
                changes: %{guess_0: ^guess_0, guess_1: ^guess_1, guess_2: ["t", "w", "i"]}
-             } = GameUtilities.append_guess_list(changeset, "i")
+             } = GameUtilities.append_guess_list(changeset, "i", current_guess)
     end
   end
 
