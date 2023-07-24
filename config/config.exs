@@ -30,7 +30,7 @@ config :wordle_clone, contact_email: System.get_env("CONTACT_EMAIL") || "test@em
 
 config :wordle_clone, resume_link: System.get_env("RESUME_LINK") || "#"
 
-config :wordle_clone, resume_link: System.get_env("LINKEDIN_LINK") || "#"
+config :wordle_clone, linkedin_link: System.get_env("LINKEDIN_LINK") || "#"
 
 # Configure esbuild (the version is required)
 config :esbuild,
