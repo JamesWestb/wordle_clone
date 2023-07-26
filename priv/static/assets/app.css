@@ -1633,6 +1633,11 @@ select {
   border-color: transparent;
 }
 
+.bg-gray-999 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(18 18 19 / var(--tw-bg-opacity));
+}
+
 .bg-secondary-content {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--sc) / var(--tw-bg-opacity));
@@ -1756,6 +1761,11 @@ select {
 .text-base-100 {
   --tw-text-opacity: 1;
   color: hsl(var(--b1) / var(--tw-text-opacity));
+}
+
+.text-gray-300 {
+  --tw-text-opacity: 1;
+  color: rgb(209 213 219 / var(--tw-text-opacity));
 }
 
 .text-green-600 {
