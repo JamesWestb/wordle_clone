@@ -3,6 +3,29 @@ export default {
     this.handleEvent('animate-guess-submit', (data) => {
       const currentRow = document.getElementById(`row_${data.row}`);
 
+      function disableKeyboardEvents(event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      function permanentBackground(parentElement, answer, index) {
+        const inputCell = parentElement.firstElementChild;
+
+        inputCell.classList.add('border-none');
+
+        if (inputCell.value.toLowerCase() === answer[index]) {
+          return 'bg-correct-index';
+        } else if (answer.includes(inputCell.value.toLowerCase())) {
+          return 'bg-incorrect-index';
+        } else {
+          return 'bg-incorrect-guess';
+        }
+      }
+
+      function removeShake() {
+        currentRow.classList.remove('shake-element');
+      }
+
       if (data.validation === 'correct' || !data.validation) {
         const childElements = Array.from(currentRow.children).filter(
           (child) => child.id !== 'info_text_box'
@@ -14,11 +37,6 @@ export default {
 
         document.addEventListener('keydown', disableKeyboardEvents);
 
-        function disableKeyboardEvents(event) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-
         Array.from(childElements).forEach((childElement, index) => {
           setTimeout(() => {
             childElement.classList.add('flip-cell');
@@ -27,20 +45,6 @@ export default {
               parseFloat(getComputedStyle(childElement).animationDuration) *
               1000;
             const delay = animationDuration - 200;
-
-            function permanentBackground(parentElement, answer, index) {
-              const inputCell = parentElement.firstElementChild;
-
-              inputCell.classList.add('border-none');
-
-              if (inputCell.value.toLowerCase() === answer[index]) {
-                return 'bg-correct-index';
-              } else if (answer.includes(inputCell.value.toLowerCase())) {
-                return 'bg-incorrect-index';
-              } else {
-                return 'bg-incorrect-guess';
-              }
-            }
 
             const endFlipAnimation = () => {
               childElement.classList.remove('flip-cell');
@@ -73,10 +77,6 @@ export default {
         currentRow.classList.add('shake-element');
 
         currentRow.addEventListener('animationend', removeShake);
-
-        function removeShake() {
-          currentRow.classList.remove('shake-element');
-        }
       }
     });
   },
