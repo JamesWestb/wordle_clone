@@ -1,5 +1,8 @@
 defmodule WordleCloneWeb.WordLiveTest do
   use WordleCloneWeb.ConnCase
+  use Phoenix.VerifiedRoutes,
+    endpoint: WordleCloneWeb.Endpoint,
+    router: WordleCloneWeb.Router
 
   import WordleClone.Factory
   import Phoenix.LiveViewTest
@@ -17,7 +20,7 @@ defmodule WordleCloneWeb.WordLiveTest do
       conn: conn,
       incorrect_guess: incorrect_guess
     } do
-      {:ok, index_live, _html} = live(conn, Routes.word_index_path(conn, :index))
+      {:ok, index_live, _html} = live(conn, ~p"/")
 
       Enum.each(0..4, fn index ->
         input_value = incorrect_guess |> Enum.at(index)
@@ -34,7 +37,7 @@ defmodule WordleCloneWeb.WordLiveTest do
       conn: conn,
       incorrect_guess: incorrect_guess
     } do
-      {:ok, index_live, _html} = live(conn, Routes.word_index_path(conn, :index))
+      {:ok, index_live, _html} = live(conn, ~p"/")
 
       input_guess(index_live, incorrect_guess)
 
@@ -46,7 +49,7 @@ defmodule WordleCloneWeb.WordLiveTest do
     end
 
     test "initiates a new guess", %{conn: conn, incorrect_guess: incorrect_guess} do
-      {:ok, index_live, _html} = live(conn, Routes.word_index_path(conn, :index))
+      {:ok, index_live, _html} = live(conn, ~p"/")
 
       input_guess(index_live, incorrect_guess)
 
@@ -59,7 +62,7 @@ defmodule WordleCloneWeb.WordLiveTest do
     end
 
     test "removes characters from a guess", %{conn: conn, incorrect_guess: incorrect_guess} do
-      {:ok, index_live, _html} = live(conn, Routes.word_index_path(conn, :index))
+      {:ok, index_live, _html} = live(conn, ~p"/")
 
       input_guess(index_live, incorrect_guess)
 
@@ -76,7 +79,7 @@ defmodule WordleCloneWeb.WordLiveTest do
       conn: conn,
       incorrect_guess: incorrect_guess
     } do
-      {:ok, index_live, _html} = live(conn, Routes.word_index_path(conn, :index))
+      {:ok, index_live, _html} = live(conn, ~p"/")
 
       input_guess(index_live, incorrect_guess)
 

@@ -62,6 +62,8 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :wallaby, :js_logger, nil
+
 config :wordle_clone,
   game_solutions: [
     "cream",

@@ -1,10 +1,10 @@
 defmodule WordleCloneWeb.WordFeatureTest do
   use WordleCloneWeb.FeatureCase, async: false
+  use Phoenix.VerifiedRoutes,
+    endpoint: WordleCloneWeb.Endpoint,
+    router: WordleCloneWeb.Router
 
   import WordleClone.Factory
-
-  alias WordleCloneWeb.Endpoint
-  alias WordleCloneWeb.Router.Helpers, as: Routes
 
   setup do
     word_1 = insert(:word, id: 200, name: "valid", game_solution: true)
@@ -22,35 +22,35 @@ defmodule WordleCloneWeb.WordFeatureTest do
       correct_guess: [_ | invalid_length_guess]
     } do
       session
-      |> visit(Routes.word_index_path(Endpoint, :index))
+      |> visit_play_path()
       |> input_guess(invalid_length_guess)
       |> assert_text(Query.css("#info_text_box"), "Not enough letters")
     end
 
     test "displays invalid length message when no guess has been made", %{session: session} do
       session
-      |> visit(Routes.word_index_path(Endpoint, :index))
+      |> visit_play_path()
       |> Wallaby.Browser.send_keys([:enter])
       |> assert_text(Query.css("#info_text_box"), "Not enough letters")
     end
 
     test "displays invalid data message when word does not exist in database", %{session: session} do
       session
-      |> visit(Routes.word_index_path(Endpoint, :index))
+      |> visit_play_path()
       |> input_guess(["t", "h", "i", "n", "g"])
       |> assert_text(Query.css("#info_text_box"), "Not in word list")
     end
 
     test "displays correct guess message", %{session: session, correct_guess: correct_guess} do
       session
-      |> visit(Routes.word_index_path(Endpoint, :index))
+      |> visit_play_path()
       |> input_guess(correct_guess)
       |> assert_text(Query.css("#info_text_box"), "Genius")
     end
 
     test "animates guess submit", %{session: session, correct_guess: correct_guess} do
       session
-      |> visit(Routes.word_index_path(Endpoint, :index))
+      |> visit_play_path()
       |> input_guess(correct_guess)
       |> assert_has(Query.css(".flip-cell"))
     end
@@ -59,7 +59,7 @@ defmodule WordleCloneWeb.WordFeatureTest do
       session: session,
       incorrect_guess: incorrect_guess
     } do
-      visit(session, Routes.word_index_path(Endpoint, :index))
+      visit_play_path(session)
 
       assert_has(session, Query.css("#row_0 .bg-transparent", count: 5))
 
@@ -78,7 +78,7 @@ defmodule WordleCloneWeb.WordFeatureTest do
       correct_guess: correct_guess,
       incorrect_guess: incorrect_guess
     } do
-      visit(session, Routes.word_index_path(Endpoint, :index))
+      visit_play_path(session)
 
       assert_has(session, Query.css("#row_0 .bg-transparent", count: 5))
 
@@ -105,7 +105,7 @@ defmodule WordleCloneWeb.WordFeatureTest do
       word = insert(:word, name: "angel", game_solution: false)
       incorrect_guess_2 = String.graphemes(word.name)
 
-      visit(session, Routes.word_index_path(Endpoint, :index))
+      visit_play_path(session)
 
       input_guess(session, incorrect_guess)
 
@@ -134,7 +134,7 @@ defmodule WordleCloneWeb.WordFeatureTest do
       session: session,
       incorrect_guess: incorrect_guess
     } do
-      visit(session, Routes.word_index_path(Endpoint, :index))
+      visit_play_path(session)
 
       Enum.each(0..5, fn index ->
         input_guess(session, incorrect_guess, index)
@@ -148,7 +148,7 @@ defmodule WordleCloneWeb.WordFeatureTest do
       session: session,
       correct_guess: correct_guess
     } do
-      visit(session, Routes.word_index_path(Endpoint, :index))
+      visit_play_path(session)
 
       input_guess(session, correct_guess)
 
@@ -160,9 +160,11 @@ defmodule WordleCloneWeb.WordFeatureTest do
     Enum.each(0..(length(guess) - 1), fn index ->
       input_value = guess |> Enum.at(index)
 
-      fill_in(session, Query.text_field("input_cell_#{row}-#{index}"), with: input_value)
+      send_keys(session, [input_value])
     end)
 
     Wallaby.Browser.send_keys(session, [:enter])
   end
+
+  defp visit_play_path(session), do: visit(session, ~p"/play")
 end
