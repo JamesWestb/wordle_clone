@@ -1,5 +1,8 @@
 defmodule WordleCloneWeb.WordLive.InfoComponent do
   use WordleCloneWeb, :live_component
+  use Phoenix.VerifiedRoutes,
+    endpoint: WordleCloneWeb.Endpoint,
+    router: WordleCloneWeb.Router
 
   alias WordleCloneWeb.Router.Helpers, as: Routes
 
@@ -15,7 +18,7 @@ defmodule WordleCloneWeb.WordLive.InfoComponent do
 
   def handle_event("keydown", _params, socket) do
     socket
-    |> push_redirect(to: Routes.word_index_path(socket, :index))
+    |> push_redirect(to: ~p"/play")
     |> noreply()
   end
 end

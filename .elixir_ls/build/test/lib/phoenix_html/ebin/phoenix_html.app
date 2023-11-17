@@ -20,7 +20,7 @@
           'Elixir.Phoenix.HTML.Safe.Time','Elixir.Phoenix.HTML.Safe.Tuple',
           'Elixir.Phoenix.HTML.Safe.URI','Elixir.Phoenix.HTML.Tag']},
      {registered,[]},
-     {vsn,"3.3.1"},
+     {vsn,"3.3.3"},
      {env,
          [{csrf_token_reader,
               {'Elixir.Plug.CSRFProtection',get_csrf_token_for,[]}}]}]}.

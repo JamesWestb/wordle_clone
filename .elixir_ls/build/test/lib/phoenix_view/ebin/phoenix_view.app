@@ -6,4 +6,4 @@
               {modules,['Elixir.Phoenix.Template.UndefinedError',
                         'Elixir.Phoenix.View']},
               {registered,[]},
-              {vsn,"2.0.2"}]}.
+              {vsn,"2.0.3"}]}.

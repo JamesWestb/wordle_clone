@@ -37,5 +37,5 @@
                         'Elixir.Wallaby.StaleReferenceError',
                         'Elixir.Wallaby.WebdriverClient']},
               {registered,[]},
-              {vsn,"0.30.3"},
+              {vsn,"0.30.6"},
               {mod,{'Elixir.Wallaby',[]}}]}.

@@ -1,5 +1,8 @@
 defmodule WordleCloneWeb.WordLive.Index do
   use WordleCloneWeb, :live_view
+  use Phoenix.VerifiedRoutes,
+    endpoint: WordleCloneWeb.Endpoint,
+    router: WordleCloneWeb.Router
 
   alias Ecto.Changeset
   alias WordleClone.GameUtilities

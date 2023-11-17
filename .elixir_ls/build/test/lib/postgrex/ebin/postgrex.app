@@ -1,7 +1,7 @@
 {application,postgrex,
              [{optional_applications,[jason,table]},
-              {applications,[kernel,stdlib,elixir,logger,crypto,jason,table,
-                             decimal,db_connection]},
+              {applications,[kernel,stdlib,elixir,logger,crypto,ssl,jason,
+                             table,decimal,db_connection]},
               {description,"PostgreSQL driver for Elixir"},
               {modules,['Elixir.Collectable.Postgrex.Stream',
                         'Elixir.DBConnection.Query.Postgrex.Copy',
@@ -82,7 +82,7 @@
                         'Elixir.String.Chars.Postgrex.Copy',
                         'Elixir.String.Chars.Postgrex.Query']},
               {registered,[]},
-              {vsn,"0.17.1"},
+              {vsn,"0.17.3"},
               {mod,{'Elixir.Postgrex.App',[]}},
               {env,[{type_server_reap_after,180000},
                     {json_library,'Elixir.Jason'}]}]}.

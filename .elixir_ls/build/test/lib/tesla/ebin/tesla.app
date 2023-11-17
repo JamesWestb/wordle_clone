@@ -45,4 +45,4 @@
                         'Elixir.Tesla.Mock.Error','Elixir.Tesla.Multipart',
                         'Elixir.Tesla.Multipart.Part']},
               {registered,[]},
-              {vsn,"1.7.0"}]}.
+              {vsn,"1.8.0"}]}.

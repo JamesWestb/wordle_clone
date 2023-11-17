@@ -19,6 +19,6 @@
                         'Elixir.Plug.Exception.Phoenix.Ecto.PendingMigrationError',
                         'Elixir.Plug.Exception.Phoenix.Ecto.StorageNotCreatedError']},
               {registered,[]},
-              {vsn,"4.4.2"},
+              {vsn,"4.4.3"},
               {mod,{'Elixir.Phoenix.Ecto',[]}},
               {env,[{exclude_ecto_exceptions_from_plug,[]}]}]}.

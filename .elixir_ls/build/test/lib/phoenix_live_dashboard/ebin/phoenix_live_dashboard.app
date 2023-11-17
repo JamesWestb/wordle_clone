@@ -54,5 +54,5 @@
                         'Elixir.Phoenix.LiveDashboard.UsageCardComponent',
                         'Elixir.Phoenix.LiveDashboard.Web']},
               {registered,[]},
-              {vsn,"0.6.5"},
+              {vsn,"0.7.2"},
               {mod,{'Elixir.Phoenix.LiveDashboard.Application',[]}}]}.

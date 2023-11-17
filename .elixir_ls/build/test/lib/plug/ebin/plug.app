@@ -4,8 +4,7 @@
               {applications,[kernel,stdlib,elixir,logger,eex,mime,plug_crypto,
                              telemetry]},
               {description,"Compose web applications with functions"},
-              {modules,['Elixir.Collectable.Plug.Conn',
-                        'Elixir.Inspect.Plug.Conn','Elixir.Plug',
+              {modules,['Elixir.Inspect.Plug.Conn','Elixir.Plug',
                         'Elixir.Plug.Adapters.Cowboy',
                         'Elixir.Plug.Adapters.Test.Conn',
                         'Elixir.Plug.Application',
@@ -48,6 +47,6 @@
                         'Elixir.Plug.TimeoutError','Elixir.Plug.Upload',
                         'Elixir.Plug.UploadError',plug_multipart]},
               {registered,[]},
-              {vsn,"1.14.2"},
+              {vsn,"1.15.2"},
               {mod,{'Elixir.Plug.Application',[]}},
               {env,[{validate_header_keys_during_test,true}]}]}.
