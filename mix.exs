@@ -5,7 +5,7 @@ defmodule WordleClone.MixProject do
     [
       app: :wordle_clone,
       version: "0.1.0",
-      elixir: "~> 1.12",
+      elixir: "~> 1.15",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
