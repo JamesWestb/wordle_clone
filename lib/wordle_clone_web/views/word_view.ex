@@ -1,39 +1,5 @@
 defmodule WordleCloneWeb.WordView do
   use WordleCloneWeb, :view
-  alias WordleClone.GameUtilities
-
-  def text_input_grid(input_cell_backgrounds, changeset) do
-    ~E"""
-    <div id="text_input_grid" phx-hook="characterInputAnimation" class="grid grid-cols-1 self-start mt-5 mb-5 gap-y-1">
-      <div class="grid grid-cols-1 col-span-1 gap-1.5">
-        <%= for row_index <- 0..5 do %>
-          <%= text_input_row(input_cell_backgrounds, row_index, changeset) %>
-        <% end %>
-      </div>
-    </div>
-    """
-  end
-
-  defp text_input_row(input_cell_backgrounds, row_index, changeset) do
-    ~E"""
-    <div id="row_<%= row_index %>" class="col-span-1 gap-1.5 flex justify-items-center justify-center">
-      <%= for column_index <- 0..4 do %>
-        <%= text_input_cell(input_cell_backgrounds, row_index, column_index, changeset) %>
-      <% end%>
-    </div>
-    """
-  end
-
-  defp text_input_cell(input_cell_backgrounds, row_index, column_index, changeset) do
-    cell_indices = GameUtilities.stringify_cell_indices(row_index, column_index)
-    input_value = GameUtilities.find_input_cell_value(cell_indices, changeset)
-
-    ~E"""
-    <div class="relative sm:w-16 sm:h-16 h-14 w-14 col-span-1 pointer-events-none select-none">
-      <input id="input_cell_<%= cell_indices %>" type="text" value="<%= input_value %>" class="w-full h-full p-3 <%= input_cell_background_color(input_cell_backgrounds, input_value, cell_indices) %> text-slate-100 rounded-sm text-3xl text-center font-bold cursor-default" maxlength="1">
-    </div>
-    """
-  end
 
   def keyboard(keyboard_backgrounds) do
     keyboard_rows = [
