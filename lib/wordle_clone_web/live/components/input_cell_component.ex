@@ -21,6 +21,7 @@ defmodule WordleCloneWeb.InputCellComponent do
     |> ok()
   end
 
+  @impl true
   def render(%{cell_indices: cell_indices, changeset: changeset} = assigns) do
     input_value = GameUtilities.find_input_cell_value(cell_indices, changeset)
 

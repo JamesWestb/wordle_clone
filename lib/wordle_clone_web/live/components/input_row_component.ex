@@ -21,11 +21,11 @@ defmodule WordleCloneWeb.InputRowComponent do
     |> ok()
   end
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div
       id={@id}
-      phx-target="myself"
       class="col-span-1 gap-1.5 flex justify-items-center justify-center"
     >
       <%= for column_index <- 0..4 do %>

@@ -9,7 +9,6 @@ defmodule WordleCloneWeb.WordLive.Index do
   alias WordleClone.GameUtilities
   alias WordleClone.Guesses
   alias WordleClone.WordBank
-  alias WordleCloneWeb.Router.Helpers, as: Routes
 
   @impl true
   def mount(_params, _session, socket) do

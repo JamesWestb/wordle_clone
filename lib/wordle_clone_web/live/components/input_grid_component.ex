@@ -13,6 +13,7 @@ defmodule WordleCloneWeb.InputGridComponent do
     |> ok()
   end
 
+  @impl true
   def render(assigns) do
     ~H"""
     <div
