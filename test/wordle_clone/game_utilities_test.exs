@@ -61,7 +61,9 @@ defmodule WordleClone.GameUtilitiesTest do
       current_guess = 0
 
       updated_changeset_1 = GameUtilities.append_guess_list(changeset, "a", current_guess)
-      updated_changeset_2 = GameUtilities.append_guess_list(updated_changeset_1, "l", current_guess)
+
+      updated_changeset_2 =
+        GameUtilities.append_guess_list(updated_changeset_1, "l", current_guess)
 
       assert %Changeset{changes: %{guess_0: ["v", "a"]}} = updated_changeset_1
       assert %Changeset{changes: %{guess_0: ["v", "a", "l"]}} = updated_changeset_2

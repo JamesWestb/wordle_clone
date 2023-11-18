@@ -21,7 +21,7 @@ export default {
       )
       textBox.id = 'info_text_box'
 
-      const topRow = document.getElementById('row_0')
+      const topRow = document.getElementById('input_row_0')
 
       if (data.validation) {
         topRow.appendChild(textBox)

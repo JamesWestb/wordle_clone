@@ -4,8 +4,6 @@ defmodule WordleCloneWeb.WordLive.InfoComponent do
     endpoint: WordleCloneWeb.Endpoint,
     router: WordleCloneWeb.Router
 
-  alias WordleCloneWeb.Router.Helpers, as: Routes
-
   @impl true
   def update(%{title: title}, socket) do
     socket
