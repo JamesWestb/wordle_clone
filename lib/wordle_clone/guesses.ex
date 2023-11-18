@@ -21,18 +21,12 @@ defmodule WordleClone.Guesses do
   def guess_changeset(attrs) do
     %__MODULE__{}
     |> cast(attrs, @guess_fields)
-    |> validate_guesses()
     |> validate_length()
     |> validate_in_word_bank()
   end
 
-  defp validate_guesses(%Changeset{changes: changes} = changeset) when changes == %{},
-    do: add_error(changeset, :guess, "must contain at least one guess")
-
-  defp validate_guesses(%Changeset{} = changeset), do: changeset
-
   defp validate_length(%Changeset{changes: changes} = changeset) do
-    if Enum.all?(changes, fn {_, guess} -> length(guess) == 5 end) do
+    if Enum.any?(changes) && Enum.all?(changes, fn {_, guess} -> length(guess) == 5 end) do
       changeset
     else
       add_error(changeset, :guess, "must be five characters")
