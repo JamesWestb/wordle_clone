@@ -110,8 +110,7 @@ defmodule WordleCloneWeb.WordLive.Index do
          %{assigns: %{changeset: changeset, current_guess: current_guess}} = socket,
          key
        ) do
-    if find_error(changeset, "must be five characters") ||
-         find_error(changeset, "must contain at least one guess") do
+    if find_error(changeset, "must be five characters") do
       socket
       |> assign(changeset: GameUtilities.append_guess_list(changeset, key, current_guess))
       |> push_input_animation()

@@ -25,12 +25,6 @@ defmodule WordleClone.GuessesTest do
       refute Keyword.get(invalid_changeset.errors, :guess) == {"not in word bank", []}
     end
 
-    test "validates at least one guess" do
-      invalid_changeset = Guesses.guess_changeset(%{})
-
-      assert_error(invalid_changeset, "must contain at least one guess")
-    end
-
     test "validates length" do
       invalid_changeset = Guesses.guess_changeset(%{guess_0: ["i", "n", "v", "a"]})
 
