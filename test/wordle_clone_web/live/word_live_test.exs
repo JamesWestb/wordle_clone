@@ -1,5 +1,6 @@
 defmodule WordleCloneWeb.WordLiveTest do
   use WordleCloneWeb.ConnCase
+
   use Phoenix.VerifiedRoutes,
     endpoint: WordleCloneWeb.Endpoint,
     router: WordleCloneWeb.Router

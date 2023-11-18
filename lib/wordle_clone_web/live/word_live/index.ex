@@ -1,5 +1,6 @@
 defmodule WordleCloneWeb.WordLive.Index do
   use WordleCloneWeb, :live_view
+
   use Phoenix.VerifiedRoutes,
     endpoint: WordleCloneWeb.Endpoint,
     router: WordleCloneWeb.Router
@@ -8,7 +9,6 @@ defmodule WordleCloneWeb.WordLive.Index do
   alias WordleClone.GameUtilities
   alias WordleClone.Guesses
   alias WordleClone.WordBank
-  alias WordleCloneWeb.Router.Helpers, as: Routes
 
   @impl true
   def mount(_params, _session, socket) do
@@ -106,7 +106,10 @@ defmodule WordleCloneWeb.WordLive.Index do
     end
   end
 
-  defp handle_guess_input(%{assigns: %{changeset: changeset, current_guess: current_guess}} = socket, key) do
+  defp handle_guess_input(
+         %{assigns: %{changeset: changeset, current_guess: current_guess}} = socket,
+         key
+       ) do
     if find_error(changeset, "must be five characters") ||
          find_error(changeset, "must contain at least one guess") do
       socket
@@ -118,7 +121,10 @@ defmodule WordleCloneWeb.WordLive.Index do
     end
   end
 
-  defp submit_guess(%{assigns: %{answer: answer, changeset: changeset, current_guess: current_guess}} = socket) do
+  defp submit_guess(
+         %{assigns: %{answer: answer, changeset: changeset, current_guess: current_guess}} =
+           socket
+       ) do
     if GameUtilities.current_guess(changeset) == answer do
       socket
       |> push_submit_animation(:correct)

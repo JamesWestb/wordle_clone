@@ -1,7 +1,7 @@
 export default {
   mounted() {
     this.handleEvent('animate-guess-submit', (data) => {
-      const currentRow = document.getElementById(`row_${data.row}`);
+      const currentRow = document.getElementById(`input_row_${data.row}`);
 
       function disableKeyboardEvents(event) {
         event.preventDefault();

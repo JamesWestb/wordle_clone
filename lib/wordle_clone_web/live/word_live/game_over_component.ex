@@ -4,8 +4,6 @@ defmodule WordleCloneWeb.WordLive.GameOverComponent do
     endpoint: WordleCloneWeb.Endpoint,
     router: WordleCloneWeb.Router
 
-  alias WordleCloneWeb.Router.Helpers, as: Routes
-
   @impl true
   def update(%{title: title, game_win: game_win, answer: answer}, socket) do
     socket

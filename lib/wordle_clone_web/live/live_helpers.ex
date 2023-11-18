@@ -1,8 +1,6 @@
 defmodule WordleCloneWeb.LiveHelpers do
   import Phoenix.Component
-  import Phoenix.LiveView
   import Phoenix.LiveView.Helpers
-
 
   alias Phoenix.LiveView.JS
 
@@ -46,12 +44,12 @@ defmodule WordleCloneWeb.LiveHelpers do
         phx-key="escape"
       >
         <%= if @return_to do %>
-          <%= live_patch "×",
+          <%= live_patch("×",
             to: @return_to,
             id: "close",
             class: "phx-modal-close z-10 relative",
             phx_click: hide_modal()
-          %>
+          ) %>
         <% end %>
 
         <%= render_slot(@inner_block) %>
