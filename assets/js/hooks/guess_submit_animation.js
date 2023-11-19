@@ -8,14 +8,14 @@ export default {
         event.stopPropagation();
       }
 
-      function permanentBackground(parentElement, answer, index) {
+      function permanentBackground(parentElement, solution, index) {
         const inputCell = parentElement.firstElementChild;
 
         inputCell.classList.add('border-none');
 
-        if (inputCell.value.toLowerCase() === answer[index]) {
+        if (inputCell.value.toLowerCase() === solution[index]) {
           return 'bg-correct-index';
-        } else if (answer.includes(inputCell.value.toLowerCase())) {
+        } else if (solution.includes(inputCell.value.toLowerCase())) {
           return 'bg-incorrect-index';
         } else {
           return 'bg-incorrect-guess';
@@ -53,7 +53,7 @@ export default {
 
               resultObject[key] = permanentBackground(
                 childElement,
-                data.answer,
+                data.solution,
                 index
               );
               completedFlipAnimations++;
@@ -68,7 +68,7 @@ export default {
 
             setTimeout(() => {
               childElement.classList.add(
-                permanentBackground(childElement, data.answer, index)
+                permanentBackground(childElement, data.solution, index)
               );
             }, delay);
           }, index * 350);

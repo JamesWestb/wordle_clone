@@ -13,7 +13,7 @@ defmodule WordleCloneWeb.WordLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     socket
-    |> assign(answer: WordBank.get_random_word().name |> String.graphemes())
+    |> assign(solution: WordBank.get_random_word().name |> String.graphemes())
     |> assign(input_cell_backgrounds: %{})
     |> assign(keyboard_backgrounds: %{})
     |> assign(changeset: Guesses.guess_changeset(%{}))
@@ -76,16 +76,16 @@ defmodule WordleCloneWeb.WordLive.Index do
             input_cell_backgrounds: input_cell_backgrounds,
             keyboard_backgrounds: keyboard_backgrounds,
             changeset: changeset,
-            answer: answer
+            solution: solution
           }
         } = socket
       ) do
     empty_guess? = Enum.any?(changeset.changes, fn {_, guess} -> Enum.empty?(guess) end)
     current_guess = GameUtilities.current_guess(changeset)
 
-    if current_guess == answer || (map_size(changeset.changes) > 5 && !empty_guess?) do
+    if current_guess == solution || (map_size(changeset.changes) > 5 && !empty_guess?) do
       socket
-      |> assign(:game_win, current_guess == answer)
+      |> assign(:game_win, current_guess == solution)
       |> assign(:live_action, :game_over)
       |> noreply()
     else
@@ -121,10 +121,10 @@ defmodule WordleCloneWeb.WordLive.Index do
   end
 
   defp submit_guess(
-         %{assigns: %{answer: answer, changeset: changeset, current_guess: current_guess}} =
+         %{assigns: %{solution: solution, changeset: changeset, current_guess: current_guess}} =
            socket
        ) do
-    if GameUtilities.current_guess(changeset) == answer do
+    if GameUtilities.current_guess(changeset) == solution do
       socket
       |> push_submit_animation(:correct)
       |> noreply()
@@ -140,13 +140,13 @@ defmodule WordleCloneWeb.WordLive.Index do
   end
 
   defp push_submit_animation(
-         %{assigns: %{changeset: changeset, answer: answer}} = socket,
+         %{assigns: %{changeset: changeset, solution: solution}} = socket,
          validation_message
        ) do
     hook_attrs = %{
       row: row(changeset.changes),
       validation: validation_message,
-      answer: answer
+      solution: solution
     }
 
     socket

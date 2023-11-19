@@ -5,11 +5,11 @@ defmodule WordleCloneWeb.WordLive.GameOverComponent do
     router: WordleCloneWeb.Router
 
   @impl true
-  def update(%{title: title, game_win: game_win, answer: answer}, socket) do
+  def update(%{title: title, game_win: game_win, solution: solution}, socket) do
     socket
     |> assign(:title, title)
     |> assign(:game_win, game_win)
-    |> assign(:answer, answer)
+    |> assign(:solution, solution)
     |> ok()
   end
 
