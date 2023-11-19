@@ -110,20 +110,20 @@ defmodule WordleCloneWeb.WordFeatureTest do
       input_guess(session, incorrect_guess)
 
       Enum.each(["w", "o", "r"], fn value ->
-        assert_has(session, Query.css("#keyboard_cell_#{value}.bg-incorrect-guess"))
+        assert_has(session, Query.css("#keycap_#{value}.bg-incorrect-guess"))
       end)
 
-      assert_has(session, Query.css("#keyboard_cell_l.bg-incorrect-index"))
-      assert_has(session, Query.css("#keyboard_cell_d.bg-correct-index"))
+      assert_has(session, Query.css("#keycap_l.bg-incorrect-index"))
+      assert_has(session, Query.css("#keycap_d.bg-correct-index"))
 
       input_guess(session, incorrect_guess_2)
 
       Enum.each(["w", "o", "r"], fn value ->
-        assert_has(session, Query.css("#keyboard_cell_#{value}.bg-incorrect-guess"))
+        assert_has(session, Query.css("#keycap_#{value}.bg-incorrect-guess"))
       end)
 
-      assert_has(session, Query.css("#keyboard_cell_l.bg-incorrect-index"))
-      assert_has(session, Query.css("#keyboard_cell_d.bg-correct-index"))
+      assert_has(session, Query.css("#keycap_l.bg-incorrect-index"))
+      assert_has(session, Query.css("#keycap_d.bg-correct-index"))
     end
   end
 
