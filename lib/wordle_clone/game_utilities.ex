@@ -67,7 +67,8 @@ defmodule WordleClone.GameUtilities do
 
   def current_guess(changeset) do
     current_guess_key = current_guess_key(changeset.changes)
-    Map.get(changeset.changes, current_guess_key)
+
+    Changeset.get_change(changeset, current_guess_key)
   end
 
   def current_guess_key(changes) when changes == %{}, do: nil
