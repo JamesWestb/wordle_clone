@@ -1,5 +1,6 @@
 defmodule WordleCloneWeb.WordLive.InfoComponent do
   use WordleCloneWeb, :live_component
+
   use Phoenix.VerifiedRoutes,
     endpoint: WordleCloneWeb.Endpoint,
     router: WordleCloneWeb.Router

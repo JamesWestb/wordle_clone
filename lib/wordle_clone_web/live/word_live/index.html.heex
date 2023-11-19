@@ -66,6 +66,10 @@
       input_cell_backgrounds={@input_cell_backgrounds}
       changeset={@changeset}
     />
-    <%= WordleCloneWeb.WordView.keyboard(@keyboard_backgrounds) %>
+    <.live_component
+      module={WordleCloneWeb.KeyboardComponent}
+      id="keyboard"
+      keyboard_backgrounds={@keyboard_backgrounds}
+    />
   </div>
 </div>

@@ -24,10 +24,7 @@ defmodule WordleCloneWeb.InputRowComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div
-      id={@id}
-      class="col-span-1 gap-1.5 flex justify-items-center justify-center"
-    >
+    <div id={@id} class="col-span-1 gap-1.5 flex justify-items-center justify-center">
       <%= for column_index <- 0..4 do %>
         <.live_component
           module={WordleCloneWeb.InputCellComponent}
