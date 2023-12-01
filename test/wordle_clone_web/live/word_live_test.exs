@@ -21,7 +21,7 @@ defmodule WordleCloneWeb.WordLiveTest do
       conn: conn,
       incorrect_guess: incorrect_guess
     } do
-      {:ok, index_live, _html} = live(conn, ~p"/")
+      {:ok, index_live, _html} = live(conn, ~p"/play")
 
       Enum.each(0..4, fn index ->
         input_value = incorrect_guess |> Enum.at(index)
@@ -34,11 +34,30 @@ defmodule WordleCloneWeb.WordLiveTest do
       end)
     end
 
+    test "html keyboard can be used for guess input", %{
+      conn: conn,
+      incorrect_guess: incorrect_guess
+    } do
+      {:ok, index_live, _html} = live(conn, ~p"/play")
+
+      Enum.each(0..4, fn index ->
+        input_value = incorrect_guess |> Enum.at(index)
+
+        index_live
+        |> element("#keycap_#{input_value}")
+        |> render_click()
+
+        assert index_live
+               |> element("#input_cell_0-#{index}[value=\"#{String.upcase(input_value)}\"]")
+               |> has_element?()
+      end)
+    end
+
     test "does not populate input when a guess is completed", %{
       conn: conn,
       incorrect_guess: incorrect_guess
     } do
-      {:ok, index_live, _html} = live(conn, ~p"/")
+      {:ok, index_live, _html} = live(conn, ~p"/play")
 
       input_guess(index_live, incorrect_guess)
 
@@ -63,7 +82,7 @@ defmodule WordleCloneWeb.WordLiveTest do
     end
 
     test "removes characters from a guess", %{conn: conn, incorrect_guess: incorrect_guess} do
-      {:ok, index_live, _html} = live(conn, ~p"/")
+      {:ok, index_live, _html} = live(conn, ~p"/play")
 
       input_guess(index_live, incorrect_guess)
 
@@ -80,7 +99,7 @@ defmodule WordleCloneWeb.WordLiveTest do
       conn: conn,
       incorrect_guess: incorrect_guess
     } do
-      {:ok, index_live, _html} = live(conn, ~p"/")
+      {:ok, index_live, _html} = live(conn, ~p"/play")
 
       input_guess(index_live, incorrect_guess)
 
