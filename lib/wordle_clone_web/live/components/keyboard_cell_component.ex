@@ -1,7 +1,6 @@
 defmodule WordleCloneWeb.KeyboardCellComponent do
   use WordleCloneWeb, :live_component
 
-  alias WordleClone.GameUtilities
   alias WordleCloneWeb.WordView
 
   @impl true
@@ -13,6 +12,7 @@ defmodule WordleCloneWeb.KeyboardCellComponent do
     |> ok()
   end
 
+  @impl true
   def render(%{keycap_value: "backspace"} = assigns) do
     ~H"""
     <kbd id={@id} class="kbd kbd-lg text-slate-100 cursor-default rounded-md border-transparent bg-keyboard" phx-click="keydown" phx-value-key="Backspace">
@@ -31,7 +31,7 @@ defmodule WordleCloneWeb.KeyboardCellComponent do
 
   def render(assigns) do
     ~H"""
-    <kbd id={@id} class={"kbd kbd-md sm:kbd-lg text-slate-100 cursor-default font-bold font-sans border-transparent rounded-md py-2 sm:py-3 px-0 w-2 sm:px-1 #{WordView.keyboard_background_color(@keyboard_backgrounds, @keycap_value)}"}><%= String.upcase(@keycap_value) %></kbd>
+    <kbd id={@id}  phx-click="keydown" phx-value-key={@keycap_value} class={"kbd kbd-md sm:kbd-lg text-slate-100 cursor-default font-bold font-sans border-transparent rounded-md py-2 sm:py-3 px-0 w-2 sm:px-1 #{WordView.keyboard_background_color(@keyboard_backgrounds, @keycap_value)}"}><%= String.upcase(@keycap_value) %></kbd>
     """
   end
 end
