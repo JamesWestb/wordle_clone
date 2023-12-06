@@ -28,8 +28,6 @@ import validationTextAnimation from './hooks/validation_text_animation'
 import guessSubmitAnimation from './hooks/guess_submit_animation'
 import characterInputAnimation from './hooks/character_input_animation'
 import copyEmail from './hooks/copy_email'
-import keyboardCellClick from './hooks/keyboard_cell_click'
-
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute('content')
@@ -46,13 +44,26 @@ window.validationMessageKey = {
   correct: 'Genius'
 }
 
+const getBackgroundClass = (inputCell, solution, index) => {
+  if (inputCell.value.toLowerCase() === solution[index]) {
+    return 'bg-correct-index';
+  } else if (solution.includes(inputCell.value.toLowerCase())) {
+    return 'bg-incorrect-index';
+  } else {
+    return 'bg-incorrect-guess';
+  }
+}
+
+const disableKeydown = (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+}
 
 const Hooks = {
   validationTextAnimation,
-  guessSubmitAnimation,
+  guessSubmitAnimation: guessSubmitAnimation(getBackgroundClass, disableKeydown),
   characterInputAnimation,
-  copyEmail,
-  keyboardCellClick
+  copyEmail
 }
 
 let liveSocket = new LiveSocket('/live', Socket, {

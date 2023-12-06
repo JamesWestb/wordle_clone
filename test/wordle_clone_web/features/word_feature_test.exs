@@ -6,6 +6,7 @@ defmodule WordleCloneWeb.WordFeatureTest do
     router: WordleCloneWeb.Router
 
   import WordleClone.Factory
+  import Phoenix.LiveViewTest
 
   setup do
     word_1 = insert(:word, id: 200, name: "valid", game_solution: true)
@@ -151,6 +152,11 @@ defmodule WordleCloneWeb.WordFeatureTest do
       visit_play_path(session)
 
       input_guess(session, correct_guess)
+
+      session
+      |> element(Query.css("#game_win_header"))
+      |> IO.inspect()
+
 
       assert_has(session, Query.css("#game_win_header"))
     end

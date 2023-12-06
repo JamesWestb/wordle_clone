@@ -97,8 +97,7 @@ defmodule WordleClone.GameUtilities do
         last_background = Map.get(keyboard_backgrounds, input_value)
         new_background = Map.get(new_input_cell_backgrounds, cell_indices)
 
-        updated_background =
-          greatest_background(last_background, new_background, background_values)
+        updated_background = greatest_background(last_background, new_background, background_values)
 
         Map.put(acc, input_value, updated_background)
       end)
