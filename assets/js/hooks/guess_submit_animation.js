@@ -36,7 +36,6 @@ const guessSubmitAnimation = (getBackgroundClass, disableKeydown) => ({
               };
 
               inputCell.addEventListener('animationend', endFlipAnimation);
-
             }, updateBackgroundDelay);
           }, index * 350);
         });

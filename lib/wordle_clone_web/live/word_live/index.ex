@@ -13,7 +13,7 @@ defmodule WordleCloneWeb.WordLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     socket
-    |> assign(solution: WordBank.get_random_word().name |> String.graphemes())
+    |> assign(solution: WordBank.get_random_word().name |> String.graphemes() |> IO.inspect())
     |> assign(input_cell_backgrounds: %{})
     |> assign(keyboard_backgrounds: %{})
     |> assign(changeset: Guesses.guess_changeset(%{}))
@@ -147,7 +147,6 @@ defmodule WordleCloneWeb.WordLive.Index do
       validation: validation_message,
       solution: solution
     }
-
     socket
     |> push_event("animate-validation-text", hook_attrs)
     |> push_event("animate-guess-submit", hook_attrs)

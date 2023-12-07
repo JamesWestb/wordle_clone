@@ -1,21 +1,23 @@
 defmodule WordleClone.GameUtilities do
+  @keyboard_background_values %{"bg-incorrect-guess" => 1, "bg-incorrect-index" => 2, "bg-correct-index" => 3}
+
   alias Ecto.Changeset
   alias WordleClone.Guesses
 
-  def find_input_cell_value(cell_indices, changeset) do
+  def find_input_cell_value("input_cell_" <> cell_indices, changeset) do
     {row_index, column_index} = split_indices(cell_indices)
 
     case Changeset.get_change(changeset, encode_guess_key(row_index)) do
       nil -> ""
-      guess -> find_column_value(String.to_integer(column_index), guess)
+      guess -> find_guess_value_at_index(String.to_integer(column_index), guess)
     end
   end
 
-  defp find_column_value(column_index, guess) do
-    if column_index >= length(guess) do
+  defp find_guess_value_at_index(index, guess) do
+    if index >= length(guess) do
       ""
     else
-      List.to_tuple(guess) |> elem(column_index) |> String.upcase()
+      List.to_tuple(guess) |> elem(index) |> String.upcase()
     end
   end
 
@@ -78,35 +80,38 @@ defmodule WordleClone.GameUtilities do
 
   def update_keyboard_backgrounds(
         keyboard_backgrounds,
-        last_input_cell_backgrounds,
+        existing_input_cell_backgrounds,
         new_input_cell_backgrounds,
         changeset
       ) do
-    background_values = %{
-      "bg-incorrect-guess" => 1,
-      "bg-incorrect-index" => 2,
-      "bg-correct-index" => 3
-    }
-
-    if new_input_cell_backgrounds == last_input_cell_backgrounds do
+    if new_input_cell_backgrounds == existing_input_cell_backgrounds do
       keyboard_backgrounds
     else
-      Enum.reduce(new_input_cell_backgrounds, keyboard_backgrounds, fn {cell_indices, _}, acc ->
-        input_value = cell_indices |> find_input_cell_value(changeset) |> String.downcase()
-
-        last_background = Map.get(keyboard_backgrounds, input_value)
-        new_background = Map.get(new_input_cell_backgrounds, cell_indices)
-
-        updated_background = greatest_background(last_background, new_background, background_values)
-
-        Map.put(acc, input_value, updated_background)
-      end)
+      process_incoming_guess_into_keyboard_backgrounds(new_input_cell_backgrounds, keyboard_backgrounds, changeset)
     end
   end
 
-  defp greatest_background(nil, new_background, _background_values), do: new_background
+  defp process_incoming_guess_into_keyboard_backgrounds(input_cell_backgrounds, keyboard_backgrounds, changeset) do
+    Enum.reduce(input_cell_backgrounds, keyboard_backgrounds, fn {cell_indices, _}, keyboard_backgrounds_acc ->
 
-  defp greatest_background(last_background, new_background, background_values) do
+      letter_value =
+        cell_indices
+        |> find_input_cell_value(changeset)
+        |> String.downcase()
+
+      last_background = Map.get(keyboard_backgrounds, letter_value)
+      new_background = Map.get(input_cell_backgrounds, cell_indices)
+
+      updated_background =
+        find_superior_value_background(last_background, new_background, @keyboard_background_values)
+
+      Map.put(keyboard_backgrounds_acc, letter_value, updated_background)
+    end)
+  end
+
+  defp find_superior_value_background(nil, new_background, _background_values), do: new_background
+
+  defp find_superior_value_background(last_background, new_background, background_values) do
     if Map.get(background_values, new_background) > Map.get(background_values, last_background) do
       new_background
     else
