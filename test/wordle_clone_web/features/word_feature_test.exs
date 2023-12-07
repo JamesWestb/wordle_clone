@@ -24,7 +24,7 @@ defmodule WordleCloneWeb.WordFeatureTest do
     } do
       session
       |> visit_play_path()
-      |> input_guess(invalid_length_guess)
+      |> submit_guess(invalid_length_guess)
       |> assert_text(Query.css("#info_text_box"), "Not enough letters")
     end
 
@@ -38,21 +38,21 @@ defmodule WordleCloneWeb.WordFeatureTest do
     test "displays invalid data message when word does not exist in database", %{session: session} do
       session
       |> visit_play_path()
-      |> input_guess(["t", "h", "i", "n", "g"])
+      |> submit_guess(["t", "h", "i", "n", "g"])
       |> assert_text(Query.css("#info_text_box"), "Not in word list")
     end
 
     test "displays correct guess message", %{session: session, correct_guess: correct_guess} do
       session
       |> visit_play_path()
-      |> input_guess(correct_guess)
+      |> submit_guess(correct_guess)
       |> assert_text(Query.css("#info_text_box"), "Genius")
     end
 
     test "animates guess submit", %{session: session, correct_guess: correct_guess} do
       session
       |> visit_play_path()
-      |> input_guess(correct_guess)
+      |> submit_guess(correct_guess)
       |> assert_has(Query.css(".flip-cell"))
     end
 
@@ -64,7 +64,7 @@ defmodule WordleCloneWeb.WordFeatureTest do
 
       assert_has(session, Query.css("#input_row_0 .bg-transparent", count: 5))
 
-      input_guess(session, incorrect_guess)
+      submit_guess(session, incorrect_guess)
 
       Enum.each(0..2, fn index ->
         assert_has(session, Query.css("#input_cell_0-#{index}.bg-incorrect-guess"))
@@ -83,13 +83,13 @@ defmodule WordleCloneWeb.WordFeatureTest do
 
       assert_has(session, Query.css("#input_row_0 .bg-transparent", count: 5))
 
-      input_guess(session, incorrect_guess)
+      submit_guess(session, incorrect_guess)
 
       assert_has(session, Query.css("#input_row_0 .bg-incorrect-guess", count: 3))
       assert_has(session, Query.css("#input_row_0 .bg-incorrect-index", count: 1))
       assert_has(session, Query.css("#input_row_0 .bg-correct-index", count: 1))
 
-      input_guess(session, correct_guess)
+      submit_guess(session, correct_guess)
 
       assert_has(session, Query.css("#input_row_0 .bg-incorrect-guess", count: 3))
       assert_has(session, Query.css("#input_row_0 .bg-incorrect-index", count: 1))
@@ -107,7 +107,7 @@ defmodule WordleCloneWeb.WordFeatureTest do
 
       visit_play_path(session)
 
-      input_guess(session, incorrect_guess)
+      submit_guess(session, incorrect_guess)
 
       Enum.each(["w", "o", "r"], fn value ->
         assert_has(session, Query.css("#keycap_#{value}.bg-incorrect-guess"))
@@ -116,7 +116,7 @@ defmodule WordleCloneWeb.WordFeatureTest do
       assert_has(session, Query.css("#keycap_l.bg-incorrect-index"))
       assert_has(session, Query.css("#keycap_d.bg-correct-index"))
 
-      input_guess(session, incorrect_guess_2)
+      submit_guess(session, incorrect_guess_2)
 
       Enum.each(["w", "o", "r"], fn value ->
         assert_has(session, Query.css("#keycap_#{value}.bg-incorrect-guess"))
@@ -137,7 +137,7 @@ defmodule WordleCloneWeb.WordFeatureTest do
       visit_play_path(session)
 
       Enum.each(0..5, fn _ ->
-        input_guess(session, incorrect_guess)
+        submit_guess(session, incorrect_guess)
         Process.sleep(2000)
       end)
 
@@ -150,13 +150,13 @@ defmodule WordleCloneWeb.WordFeatureTest do
     } do
       visit_play_path(session)
 
-      input_guess(session, correct_guess)
+      submit_guess(session, correct_guess)
 
       assert_has(session, Query.css("#game_win_header"))
     end
   end
 
-  defp input_guess(session, guess) do
+  defp submit_guess(session, guess) do
     Enum.each(0..(length(guess) - 1), fn index ->
       input_value = guess |> Enum.at(index)
 

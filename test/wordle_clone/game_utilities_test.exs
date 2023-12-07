@@ -22,8 +22,8 @@ defmodule WordleClone.GameUtilitiesTest do
     test "returns an alphabetical character when when the indices match a guess", %{
       changeset: changeset
     } do
-      cell_indices_1 = "1-2"
-      cell_indices_2 = "2-0"
+      cell_indices_1 = "input_cell_1-2"
+      cell_indices_2 = "input_cell_2-0"
 
       assert "R" == GameUtilities.find_input_cell_value(cell_indices_1, changeset)
       assert "T" == GameUtilities.find_input_cell_value(cell_indices_2, changeset)
@@ -32,7 +32,7 @@ defmodule WordleClone.GameUtilitiesTest do
     test "returns an empty string when the indices do not match a guess", %{
       changeset: changeset
     } do
-      empty_cell_indices = ["4-3", "5-0"]
+      empty_cell_indices = ["input_cell_4-3", "input_cell_5-0"]
 
       Enum.map(
         empty_cell_indices,

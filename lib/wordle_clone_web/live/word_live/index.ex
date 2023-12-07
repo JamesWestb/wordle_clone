@@ -80,10 +80,9 @@ defmodule WordleCloneWeb.WordLive.Index do
           }
         } = socket
       ) do
-    empty_guess? = Enum.any?(changeset.changes, fn {_, guess} -> Enum.empty?(guess) end)
     current_guess = GameUtilities.current_guess(changeset)
 
-    if current_guess == solution || (map_size(changeset.changes) > 5 && !empty_guess?) do
+    if current_guess == solution || final_guess?(changeset) do
       socket
       |> assign(:game_win, current_guess == solution)
       |> assign(:live_action, :game_over)
@@ -148,7 +147,6 @@ defmodule WordleCloneWeb.WordLive.Index do
       validation: validation_message,
       solution: solution
     }
-
     socket
     |> push_event("animate-validation-text", hook_attrs)
     |> push_event("animate-guess-submit", hook_attrs)
@@ -176,4 +174,10 @@ defmodule WordleCloneWeb.WordLive.Index do
 
   defp row(changes) when changes == %{}, do: 0
   defp row(changes), do: map_size(changes) - 1
+
+  defp final_guess?(%{changes: changes}) do
+    empty_guess? = Enum.any?(changes, fn {_, guess} -> Enum.empty?(guess) end)
+
+    map_size(changes) > 5 && !empty_guess?
+  end
 end

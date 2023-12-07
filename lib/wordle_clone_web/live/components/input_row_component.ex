@@ -30,7 +30,6 @@ defmodule WordleCloneWeb.InputRowComponent do
           module={WordleCloneWeb.InputCellComponent}
           id={"input_cell_#{stringify_cell_indices(@row_index, column_index)}"}
           input_cell_backgrounds={@input_cell_backgrounds}
-          cell_indices={stringify_cell_indices(@row_index, column_index)}
           changeset={@changeset}
         />
       <% end %>
