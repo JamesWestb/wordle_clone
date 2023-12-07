@@ -13,7 +13,7 @@ defmodule WordleCloneWeb.WordLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     socket
-    |> assign(solution: WordBank.get_random_word().name |> String.graphemes() |> IO.inspect())
+    |> assign(solution: WordBank.get_random_word().name |> String.graphemes())
     |> assign(input_cell_backgrounds: %{})
     |> assign(keyboard_backgrounds: %{})
     |> assign(changeset: Guesses.guess_changeset(%{}))

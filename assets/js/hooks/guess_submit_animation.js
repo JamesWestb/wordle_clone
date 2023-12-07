@@ -9,7 +9,7 @@ const guessSubmitAnimation = (getBackgroundClass, disableKeydown) => ({
 
         const inputCells = Array.from(currentRow.children).filter((child) => child.id !== 'info_text_box');
         const cellCount = inputCells.length;
-        const accumulatedBackgrounds = {};
+        let accumulatedBackgrounds = {};
         let completedFlipAnimations = 0;
 
         Array.from(inputCells).forEach((inputCell, index) => {
