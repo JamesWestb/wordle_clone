@@ -224,10 +224,6 @@
   animation: shake 0.4s 1;
 }
 
-.no-shake {
-  animation: none !important;
-}
-
 .pop-cell {
   animation: pop 0.1s 1;
 }
