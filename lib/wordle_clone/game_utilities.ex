@@ -103,16 +103,16 @@ defmodule WordleClone.GameUtilities do
       new_background = Map.get(input_cell_backgrounds, cell_indices)
 
       updated_background =
-        find_superior_value_background(last_background, new_background, @keyboard_background_values)
+        find_superior_value_background(last_background, new_background)
 
       Map.put(keyboard_backgrounds_acc, letter_value, updated_background)
     end)
   end
 
-  defp find_superior_value_background(nil, new_background, _background_values), do: new_background
+  defp find_superior_value_background(nil, new_background), do: new_background
 
-  defp find_superior_value_background(last_background, new_background, background_values) do
-    if Map.get(background_values, new_background) > Map.get(background_values, last_background) do
+  defp find_superior_value_background(last_background, new_background) do
+    if Map.get(@keyboard_background_values, new_background) > Map.get(@keyboard_background_values, last_background) do
       new_background
     else
       last_background
