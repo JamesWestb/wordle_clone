@@ -1,5 +1,9 @@
 defmodule WordleClone.GameUtilities do
-  @keyboard_background_values %{"bg-incorrect-guess" => 1, "bg-incorrect-index" => 2, "bg-correct-index" => 3}
+  @keyboard_background_values %{
+    "bg-incorrect-guess" => 1,
+    "bg-incorrect-index" => 2,
+    "bg-correct-index" => 3
+  }
 
   alias Ecto.Changeset
   alias WordleClone.Guesses
@@ -87,13 +91,21 @@ defmodule WordleClone.GameUtilities do
     if new_input_cell_backgrounds == existing_input_cell_backgrounds do
       keyboard_backgrounds
     else
-      process_incoming_guess_into_keyboard_backgrounds(new_input_cell_backgrounds, keyboard_backgrounds, changeset)
+      process_incoming_guess_into_keyboard_backgrounds(
+        new_input_cell_backgrounds,
+        keyboard_backgrounds,
+        changeset
+      )
     end
   end
 
-  defp process_incoming_guess_into_keyboard_backgrounds(input_cell_backgrounds, keyboard_backgrounds, changeset) do
-    Enum.reduce(input_cell_backgrounds, keyboard_backgrounds, fn {cell_indices, _}, keyboard_backgrounds_acc ->
-
+  defp process_incoming_guess_into_keyboard_backgrounds(
+         input_cell_backgrounds,
+         keyboard_backgrounds,
+         changeset
+       ) do
+    Enum.reduce(input_cell_backgrounds, keyboard_backgrounds, fn {cell_indices, _},
+                                                                 keyboard_backgrounds_acc ->
       letter_value =
         cell_indices
         |> find_input_cell_value(changeset)
@@ -112,7 +124,8 @@ defmodule WordleClone.GameUtilities do
   defp find_superior_value_background(nil, new_background), do: new_background
 
   defp find_superior_value_background(last_background, new_background) do
-    if Map.get(@keyboard_background_values, new_background) > Map.get(@keyboard_background_values, last_background) do
+    if Map.get(@keyboard_background_values, new_background) >
+         Map.get(@keyboard_background_values, last_background) do
       new_background
     else
       last_background

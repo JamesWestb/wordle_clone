@@ -29,7 +29,7 @@ defmodule WordleCloneWeb.InputCellComponent do
       id={@id}
       type="text"
       value={input_value}
-      class={"#{WordView.input_cell_background_color(@input_cell_backgrounds, input_value, @id)} relative sm:w-16 w-full sm:h-16 h-full col-span-1 pointer-events-none select-none p-3 text-slate-100 rounded-sm text-3xl text-center font-bold cursor-default"}
+      class={"#{WordView.input_cell_background_color(@input_cell_backgrounds, input_value, @id)} relative sm:w-16 w-14 sm:h-16 h-14 col-span-1 pointer-events-none select-none p-3 text-slate-100 rounded-sm text-3xl text-center font-bold cursor-default"}
       maxlength="1"
     />
     """

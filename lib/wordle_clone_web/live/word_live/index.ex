@@ -89,9 +89,7 @@ defmodule WordleCloneWeb.WordLive.Index do
       |> noreply()
     else
       socket
-      |> assign(
-        input_cell_backgrounds: updated_input_cell_backgrounds
-      )
+      |> assign(input_cell_backgrounds: updated_input_cell_backgrounds)
       |> assign(
         keyboard_backgrounds:
           GameUtilities.update_keyboard_backgrounds(
@@ -147,6 +145,7 @@ defmodule WordleCloneWeb.WordLive.Index do
       validation: validation_message,
       solution: solution
     }
+
     socket
     |> push_event("animate-validation-text", hook_attrs)
     |> push_event("animate-guess-submit", hook_attrs)

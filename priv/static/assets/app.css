@@ -1268,6 +1268,15 @@ select {
   }
 }
 
+.kbd-sm {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  min-height: 1.6em;
+  min-width: 1.6em;
+}
+
 .kbd-md {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -1427,6 +1436,22 @@ select {
   height: 100%;
 }
 
+.h-screen {
+  height: 100vh;
+}
+
+.h-12 {
+  height: 3rem;
+}
+
+.max-h-full {
+  max-height: 100%;
+}
+
+.max-h-20 {
+  max-height: 5rem;
+}
+
 .w-10 {
   width: 2.5rem;
 }
@@ -1459,8 +1484,42 @@ select {
   width: 100vw;
 }
 
+.w-16 {
+  width: 4rem;
+}
+
+.w-12 {
+  width: 3rem;
+}
+
+.w-0 {
+  width: 0px;
+}
+
+.w-1 {
+  width: 0.25rem;
+}
+
+.w-auto {
+  width: auto;
+}
+
+.w-fit {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.w-min {
+  width: -moz-min-content;
+  width: min-content;
+}
+
 .max-w-lg {
   max-width: 32rem;
+}
+
+.max-w-full {
+  max-width: 100%;
 }
 
 .shrink-0 {
@@ -1591,6 +1650,10 @@ select {
   overflow: auto;
 }
 
+.overflow-hidden {
+  overflow: hidden;
+}
+
 .rounded {
   border-radius: 0.25rem;
 }
@@ -1656,6 +1719,10 @@ select {
   padding: 0.75rem;
 }
 
+.p-4 {
+  padding: 1rem;
+}
+
 .px-0 {
   padding-left: 0px;
   padding-right: 0px;
@@ -1699,6 +1766,11 @@ select {
 .py-3 {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
+}
+
+.px-10 {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
 }
 
 .pt-4 {

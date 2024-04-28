@@ -5602,8 +5602,8 @@ within:
   // js/hooks/copy_email.js
   var copy_email_default = {
     mounted() {
-      this.el.addEventListener("click", (e) => {
-        const email = e.target.textContent;
+      this.el.addEventListener("click", (_) => {
+        const email = this.el.dataset.contactEmail;
         navigator.clipboard.writeText(email);
       });
     }

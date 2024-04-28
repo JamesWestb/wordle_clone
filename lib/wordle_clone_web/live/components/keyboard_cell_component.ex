@@ -61,7 +61,7 @@ defmodule WordleCloneWeb.KeyboardCellComponent do
       id={@id}
       phx-click="keydown"
       phx-value-key={@keycap_value}
-      class={"kbd kbd-md sm:kbd-lg text-slate-100 cursor-default font-bold font-sans border-transparent rounded-md py-2 sm:py-3 px-0 w-2 sm:px-1 #{WordView.keyboard_background_color(@keyboard_backgrounds, @keycap_value)}"}
+      class={"kbd kbd-md sm:kbd-lg text-slate-100 cursor-default font-bold font-sans border-transparent rounded-md py-2 sm:py-3 sm:px-1 #{WordView.keyboard_background_color(@keyboard_backgrounds, @keycap_value)}"}
     >
       <%= String.upcase(@keycap_value) %>
     </kbd>
